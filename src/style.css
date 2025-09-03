@@ -1,0 +1,62 @@
+/* Testimonial Swiper custom nav position and sizes */
+.testimonial-swiper-right .swiper-button-next,
+.testimonial-swiper-right .swiper-button-prev {
+  top: -28px;
+  right: 0;
+  left: auto;
+}
+
+.testimonial-swiper-right .swiper-button-next,
+.testimonial-swiper-right .swiper-button-prev,
+.testimonial-swiper-left .swiper-button-next,
+.testimonial-swiper-left .swiper-button-prev {
+  width: 56px;
+  height: 56px;
+  border-radius: 9999px;
+}
+
+.testimonial-swiper-right .swiper-button-prev {
+  border: 2px solid #cbd5e1; /* gray-300 */
+  color: #475569; /* slate-600 */
+  background: #fff;
+}
+.testimonial-swiper-right .swiper-button-next {
+  background: #dc2626; /* red-600 */
+  color: #fff;
+  border: 2px solid #dc2626;
+}
+
+.testimonial-swiper-right .swiper-button-next:after,
+.testimonial-swiper-right .swiper-button-prev:after,
+.testimonial-swiper-left .swiper-button-next:after,
+.testimonial-swiper-left .swiper-button-prev:after {
+  font-size: 18px;
+}
+ .button-hover {
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .button-hover:hover {
+    transform: scale(0.98);
+  }
+  
+  .button-hover:active {
+    transform: scale(0.95);
+  }
+
+  .shine {
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .shine:hover {
+    transform: scale(0.98);
+  }
+  
+  .shine:active {
+    transform: scale(0.95);
+  }
+
+  
+
+  
+  
