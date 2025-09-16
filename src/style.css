@@ -56,6 +56,83 @@
     transform: scale(0.95);
   }
 
+  .button1 {
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .button1:hover {
+    transform: scale(0.98);
+  }
+  
+  .button1:active {
+    transform: scale(0.95);
+  }
+
+  /* Fix swiper flickering issue */
+  .testimonial-swiper {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: transform;
+    -webkit-perspective: 1000;
+    perspective: 1000;
+  }
+  
+  .testimonial-swiper .swiper-slide {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: transform;
+  }
+  
+  .testimonial-swiper .swiper-wrapper {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+  
+  .testimonial-swiper img {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  
+  /* Fix grid layout flickering */
+  .testimonial-swiper .grid {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform;
+  }
+  
+  .testimonial-swiper .grid > div {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  
+  /* Additional image stabilization */
+  .testimonial-swiper img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+  
+  .testimonial-swiper .swiper-slide img {
+    transition: none !important;
+    animation: none !important;
+  }
+
   
 
   

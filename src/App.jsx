@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Home from './pages/HomePage/Home';
 import './style.css';
 
@@ -11,17 +11,16 @@ import Cart from './widgets/pages/Cart/Cart';
 
 function App() {
   return (
-    <Router>
+    <>
       <Header />
       <Routes>
         <Route path='/' element={<Home />} />
-      
-        <Route path='/' element={<About />}/>
+        <Route path='/About' element={<About />}/>
         <Route path="/Menu" element={<Menu />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Cart" element={<Cart />} />
       </Routes>
-    </Router>
+    </>
   );
 }
 
