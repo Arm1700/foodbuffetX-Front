@@ -1,8 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Home from './pages/HomePage/Home';
 import './style.css';
-
 import Header from './widgets/header/Header';
 import About from './widgets/pages/About/About';
 import Menu from './widgets/pages/Menu/Menu';
@@ -16,7 +15,6 @@ function App() {
       <Header />
       <Routes>
         <Route path='/' element={<Home />} />
-      
         <Route path='/About' element={<About />}/>
         <Route path="/Menu" element={<Menu />} />
         <Route path="/Contact" element={<Contact />} />
@@ -24,10 +22,7 @@ function App() {
         <Route path="/Account" element={<Account />} />
       </Routes>
     </>
-      
   );
 }
-
-
 
 export default App;

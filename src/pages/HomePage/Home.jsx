@@ -1,50 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Controller } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import MealBox from '../../shared/Box/MealBox';
-
+import New from './New';
+import Povr from './povr';
+import Menu from './Menu';
+import Most from './Most';
+import Swiper from './swiper';
 
 export default function Home() {
-    const slides = [
-        {
-            left: 'public/nkar.jpg',
-            right: 'public/nkar1.jpg',
-            title: '“The best sushi rolls ever”',
-            text:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. A ac ornare amet, sed vitae cras sem. Cursus praesent fames at vestibulum imperdiet sit. Sem netus ac, eu, facilisis mauris lectus posuere. At.'
-        },
-        {
-            left: 'public/nkar1.jpg',
-            right: 'public/nkar.jpg',
-            title: '“Absolutely fresh and tasty”',
-            text:
-                'Praesent commodo cursus magna, vel scelerisque nisl consectetur. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.'
-        }
-    ];
-    const [slideIndex, setSlideIndex] = useState(0);
-    const swiperRef = useRef(null);
-    const prevRef = useRef(null);
-    const nextRef = useRef(null);
-    const rightSwiperRef = useRef(null);
-    const clickPrev = () => {
-        if (swiperRef.current) {
-            swiperRef.current.slidePrev();
-        }
-    };
-    const clickNext = () => {
-        if (swiperRef.current) {
-            swiperRef.current.slideNext();
-        }
-    };
-    useEffect(() => {
-        if (swiperRef.current) {
-            swiperRef.current.slideTo(slideIndex);
-        }
-    }, [slideIndex]);
-
-
     return (
         <div className="flex flex-col">
             <div className="w-full flex flex-col justify-center items-center h-[100vh] bg-cover bg-center bg-no-repeat bg-[url(public/bg.jpg)] relative">
@@ -107,7 +71,68 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <MealBox />
+            <div className="grid grid-cols-4 gap-4 w-[90%] mx-auto ">
+                <div className="space-y-2 relative"><img className="transition-transform duration-300 ease-in-out transform hover:scale-105" src="public/1.jpg" alt="" />
+                    <div className="border absolute w-[100px] h-[40px] top-[10px] right-[10px] flex justify-center items-center border-none bg-red-500">
+                        <p className="text-white font-semibold text-lg leading-relaxed">$12.99</p>
+                    </div>
+                    <h1 className="text-2xl font-bold text-black font-serif">Chimmi Makis</h1>
+                    <p className="text-gray-500 text-lg leading-relaxed">Lorem ipsum dolor sit amet <br /> consectetur adipiscing elit.</p>
+                </div>
+                <div className="space-y-2 relative ">
+                    <img className="transition-transform duration-300 ease-in-out transform hover:scale-105" src="public/2.jpg" alt="" />
+                    <div className="border absolute w-[100px] h-[40px] top-[10px] right-[10px] flex justify-center items-center border-none bg-red-500">
+                        <p className="text-white text-lg leading-relaxed font-semibold">$10.99</p>
+                    </div>
+                    <h1 className="text-2xl font-bold text-black font-serif">Migiri Sushi</h1>
+                    <p className="text-gray-500 text-lg leading-relaxed">Lorem ipsum dolor sit amet <br /> consectetur adipiscing elit.</p>
+                </div>
+                <div className="space-y-2 relative">
+                    <img className="transition-transform duration-300 ease-in-out transform hover:scale-105" src="public/3.jpg" alt="" />
+                    <div className="border absolute w-[100px] h-[40px] top-[10px] right-[10px] flex justify-center items-center border-none bg-red-500">
+                        <p className="text-white font-semibold text-lg leading-relaxed">$11.99</p>
+                    </div>
+                    <h1 className="text-2xl font-bold text-black font-serif">Togarashi Makis</h1>
+                    <p className="text-gray-500 text-lg leading-relaxed">Lorem ipsum dolor sit amet <br /> consectetur adipiscing elit.</p>
+                </div>
+                <div className="space-y-2 relative">
+                    <img className="transition-transform duration-300 ease-in-out transform hover:scale-105" src="public/4.jpg" alt="" />
+                    <div className="border absolute w-[100px] h-[40px] top-[10px] right-[10px] flex justify-center items-center border-none bg-red-500">
+                        <p className="text-white font-semibold text-lg leading-relaxed">$12.99</p>
+                    </div>
+                    <h1 className="text-2xl font-bold text-black font-serif">Salmon Roll</h1>
+                    <p className="text-gray-500 text-lg leading-relaxed">Lorem ipsum dolor sit amet <br /> consectetur adipiscing elit.</p>
+                </div>
+                <div className="space-y-2 relative">
+                    <img className="transition-transform duration-300 ease-in-out transform hover:scale-105" src="public/5.jpg" alt="" />
+                    <div className="border absolute w-[100px] h-[40px] top-[10px] right-[10px] flex justify-center items-center border-none bg-red-500">
+                        <p className="text-white font-semibold text-lg leading-relaxed">$10.99</p>
+                    </div>
+                    <h1 className="text-2xl font-bold text-black font-serif">Tuna Poke Bowl</h1>
+                    <p className="text-gray-500 text-lg leading-relaxed">Lorem ipsum dolor sit amet <br /> consectetur adipiscing elit.</p>
+                </div>
+                <div className="space-y-2 relative"><img className="transition-transform duration-300 ease-in-out transform hover:scale-105" src="public/6.jpg" alt="" />
+                    <div className="border absolute w-[100px] h-[40px] top-[10px] right-[10px] flex justify-center items-center border-none bg-red-500">
+                        <p className="text-white  text-lg leading-relaxed">$12.99</p>
+                    </div>
+                    <h1 className="text-2xl font-bold text-black font-serif">Sardine Stew</h1>
+                    <p className="text-gray-500 text-lg leading-relaxed">Lorem ipsum dolor sit amet <br /> consectetur adipiscing elit.</p>
+                </div>
+                <div className="space-y-2 relative"><img className="transition-transform duration-300 ease-in-out transform hover:scale-105" src="public/7.jpg" alt="" />
+                    <div className="border absolute w-[100px] h-[40px] top-[10px] right-[10px] flex justify-center items-center border-none bg-red-500">
+                        <p className="text-white font-semibold text-lg leading-relaxed">$11.99</p>
+                    </div>
+                    <h1 className="text-2xl font-bold text-black font-serif">Vegetarian Ramen</h1>
+                    <p className="text-gray-500 text-lg leading-relaxed">Lorem ipsum dolor sit amet <br /> consectetur adipiscing elit.</p>
+                </div>
+                <div className="space-y-2 relative"><img className="transition-transform duration-300 ease-in-out transform hover:scale-105" src="public/8.jpg" alt="" />
+                    <div className="border absolute w-[100px] h-[40px] top-[10px] right-[10px] flex justify-center items-center border-none bg-red-500">
+                        <p className="text-white font-semibold text-lg leading-relaxed">$11.99</p>
+                    </div>
+                    <h1 className="text-2xl font-bold text-black font-serif">Vegetarian Soup</h1>
+                    <p className="text-gray-500 text-lg leading-relaxed">Lorem ipsum dolor sit amet <br /> consectetur adipiscing elit.</p>
+                </div>
+            </div>
             <div className="flex mt-20 gap-4  w-[90%] mx-auto justify-center items-center ">
                 <button className="button-hover relative overflow-hidden bg-red-500 text-white font-semibold py-2 rounded-lg w-[140px] h-[55px] shine text-ls">
                     Call
