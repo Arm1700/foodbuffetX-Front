@@ -12,7 +12,7 @@ export default function Favorites() {
       <h1 className="text-[#f93c22] text-[34px] font-bold mb-6">Սիրելի ուտեստներ</h1>
 
       {favorites.length === 0 ? (
-        <p className="text-gray-500">Դուք դեռ չեք ավելացրել ձեր սիրելի ուտեստներ։</p>
+        <p className="text-gray-500">Դուք դեռ չեք ավելացրել ձեր սիրելի ուտեստները։</p>
       ) : (
         <div className="flex-1 overflow-y-auto max-h-[400px] pr-2 space-y-4 custom-scrollbar">
           {favorites.map((fav) => (
