@@ -1,5 +1,5 @@
 import Overview from "./AccountPages/Overview/Overview";
-// import Profile from "./AccountPages/Profile/Profile";
+import Profile from "./AccountPages/Profile/Profile";
 import Favorites from "./AccountPages/Favorites/Favorites";
 import Addresses from "./AccountPages/Addresses/Addresses";
 import Login from "../../features/auth/Login";
@@ -25,13 +25,13 @@ export const accountArray = [
     visibleFor: ["user", "admin"],
     component: Overview,
   },
-  // {
-  //   id: 4,
-  //   title: "👤 Պրոֆիլ",
-  //   link: "/profile",
-  //   visibleFor: ["user", "admin"],
-  //   component: Profile,
-  // },
+  {
+    id: 4,
+    title: "👤 Պրոֆիլ",
+    link: "/profile",
+    visibleFor: ["user", "admin"],
+    component: Profile,
+  },
   {
     id: 5,
     title: "📍 Հասցեներ",

@@ -1,24 +1,17 @@
 import React, { createContext, useReducer, useEffect } from "react";
-import { HomeArray } from "../pages/HomePage/HomeArray";
+import axios from "axios";
+import { useAuth } from "./AuthContext";
 
 export const MealDataContext = createContext();
 
-const getMealsForUser = (userId) => {
-  const saved = localStorage.getItem(`likes_user_${userId}`);
-  if (saved) {
-    const likedIds = JSON.parse(saved);
-    return HomeArray.map((meal) => ({
-      ...meal,
-      is_favorited: likedIds.includes(meal.id),
-    }));
-  }
-  return HomeArray;
-};
+const API_BASE = "http://127.0.0.1:8000";
 
 const reducer = (state, action) => {
   switch (action.type) {
     case "SET_MEALS":
-      return { ...state, meals: action.payload };
+      return { ...state, meals: action.payload, loading: false, error: null };
+    case "SET_ERROR":
+      return { ...state, error: action.payload, loading: false };
     case "TOGGLE_FAVORITE":
       return {
         ...state,
@@ -33,27 +26,73 @@ const reducer = (state, action) => {
   }
 };
 
-const MealDataProvider = ({ children, userId }) => {
-  const [state, dispatch] = useReducer(reducer, { meals: getMealsForUser(userId) });
+const MealDataProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, {
+    meals: [],
+    loading: true,
+    error: null,
+  });
 
-  // Сбрасываем лайки при смене пользователя
+  const { accessToken } = useAuth();
+
+  // Загрузка meals
   useEffect(() => {
-    dispatch({ type: "SET_MEALS", payload: getMealsForUser(userId) });
-  }, [userId]);
+    if (!accessToken) return; // не делаем запрос, если токена нет
 
-  const toggleFavorite = (mealId) => {
+    let mounted = true;
+
+    const fetchMeals = async () => {
+      try {
+        const res = await axios.get(`${API_BASE}/api/meals/`, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+
+        const data = Array.isArray(res.data) ? res.data : res.data?.results ?? [];
+        if (mounted) dispatch({ type: "SET_MEALS", payload: data });
+      } catch (err) {
+        console.error("Fetch meals error:", err);
+        if (mounted) dispatch({ type: "SET_ERROR", payload: "Failed to load meals" });
+      }
+    };
+
+    fetchMeals();
+    return () => { mounted = false };
+  }, [accessToken]);
+
+  // Лайки
+  const toggleFavorite = async (mealId) => {
+    const meal = state.meals.find((m) => m.id === mealId);
+    if (!meal || !accessToken) return;
+
     dispatch({ type: "TOGGLE_FAVORITE", payload: mealId });
 
-    const likedMeals = state.meals
-      .map((m) => (m.id === mealId ? { ...m, is_favorited: !m.is_favorited } : m))
-      .filter((m) => m.is_favorited)
-      .map((m) => m.id);
-
-    localStorage.setItem(`likes_user_${userId}`, JSON.stringify(likedMeals));
+    try {
+      if (!meal.is_favorited) {
+        await axios.post(
+          `${API_BASE}/api/meals/${mealId}/favorite/`,
+          {},
+          { headers: { Authorization: `Bearer ${accessToken}` } }
+        );
+      } else {
+        await axios.delete(`${API_BASE}/api/meals/${mealId}/favorite/`, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+      }
+    } catch (err) {
+      console.error("Ошибка при лайке:", err);
+      dispatch({ type: "TOGGLE_FAVORITE", payload: mealId }); // откат UI
+    }
   };
 
   return (
-    <MealDataContext.Provider value={{ meals: state.meals, toggleFavorite }}>
+    <MealDataContext.Provider
+      value={{
+        meals: state.meals,
+        loading: state.loading,
+        error: state.error,
+        toggleFavorite,
+      }}
+    >
       {children}
     </MealDataContext.Provider>
   );

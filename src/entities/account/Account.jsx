@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "../../index.css";
-// import PersonData from "./AccountPages/PersonData/PersonData";
+import PersonData from "./AccountPages/PersonData/PersonData";
 import { useAuth } from "../../hooks/useAuth";
 import { accountArray } from "./accountArray";
 
@@ -63,10 +63,10 @@ function Account() {
 
           {/* Sidebar */}
           <div className="w-[35%] h-full border-r-[1px] border-r-gray-200 flex flex-col items-center bg-[#F1F1F1] p-[5%] rounded-bl-[20px]">
-            {/* {isLoggedIn && <PersonData />} */}
+            {isLoggedIn && <PersonData />}
             <div
               className={`w-full flex flex-col gap-8 ${
-                isLoggedIn ? "mt-[79%]" : "mt-[100%]"
+                isLoggedIn ? "mt-[9%]" : "mt-[100%]"
               }`}
             >
               {filteredButtons.map((item) => (
