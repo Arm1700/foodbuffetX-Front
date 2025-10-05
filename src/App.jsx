@@ -8,6 +8,7 @@ import About from './widgets/pages/About/About';
 import Menu from './widgets/pages/Menu/Menu';
 import Contact from './widgets/pages/Contact/Contact';
 import Cart from './widgets/pages/Cart/Cart';
+import Footer from './widgets/footer/Footer';
 
 function App() {
   return (
@@ -16,11 +17,12 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
       
-        <Route path='/' element={<About />}/>
+        <Route path='/About' element={<About />}/>
         <Route path="/Menu" element={<Menu />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Cart" element={<Cart />} />
       </Routes>
+      <Footer />
     </Router>
   );
 }
