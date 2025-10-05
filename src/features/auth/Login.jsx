@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const { saveAuth } = useAuth();
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ export default function Login() {
     setError("");
   
     try {
-      const data = await login(phone, password);
+      const data = await login(email, password);
       
       saveAuth(data);                              
       localStorage.setItem("auth", JSON.stringify(data));
@@ -38,20 +38,30 @@ export default function Login() {
           </div>
         )}
 
-        <input type="tel" placeholder="Հեռախոսահամար" value={phone} onChange={(e) => setPhone(e.target.value)} required className="w-full py-[5%] border border-gray-300 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-[#f93c22] shadow-sm transition" />
+        <input
+          type="email"
+          placeholder="Էլ․ հասցե"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className="w-full py-[5%] border border-gray-300 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-[#f93c22] shadow-sm transition"
+        />
 
-        <input type="password" placeholder="Գաղտնաբառ" value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full py-[5%] border border-gray-300 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-[#f93c22] shadow-sm transition" />
+        <input
+          type="password"
+          placeholder="Գաղտնաբառ"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className="w-full py-[5%] border border-gray-300 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-[#f93c22] shadow-sm transition"
+        />
 
-        <button type="submit" className="w-full py-3 bg-gradient-to-r from-[#f93c22] to-[#ff724f] text-white font-semibold rounded-2xl hover:from-[#e2331d] hover:to-[#ff5c3a] transition" >
+        <button
+          type="submit"
+          className="w-full py-3 bg-gradient-to-r from-[#f93c22] to-[#ff724f] text-white font-semibold rounded-2xl hover:from-[#e2331d] hover:to-[#ff5c3a] transition"
+        >
           Մուտք գործել
         </button>
-
-        <div className="text-center text-gray-600">
-          Չունե՞ք պրոֆիլ։{" "}
-          <a href="/register" className="text-[#f93c22] hover:underline">
-            Գրանցվել
-          </a>
-        </div>
       </form>
     </div>
   );

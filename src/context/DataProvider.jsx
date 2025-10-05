@@ -19,9 +19,13 @@ const dataReducer = (state, action) => {
 export const DataProvider = ({ children }) => {
   const [state, dispatch] = useReducer(dataReducer, initialState);
 
-  const login = async (phone, password) => {
+  const login = async (email, password) => {
     try {
-      const res = await axios.post(`${BASE_URL}/login/`, { phone, password }, { withCredentials: true });
+      const res = await axios.post(
+        `${BASE_URL}/login/`,
+        { email, password },
+        { withCredentials: true }
+      );
       dispatch({ type: "SET_USER", payload: res.data.user });
       return res.data.user;
     } catch (err) {
@@ -30,9 +34,13 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  const register = async (phone, password) => {
+  const register = async (email, first_name, last_name, password, password_confirm) => {
     try {
-      const res = await axios.post(`${BASE_URL}/register/`, { phone, password }, { withCredentials: true });
+      const res = await axios.post(
+        `${BASE_URL}/register/`,
+        { email, first_name, last_name, password, password_confirm },
+        { withCredentials: true }
+      );
       dispatch({ type: "SET_USER", payload: res.data.user });
       return res.data.user;
     } catch (err) {

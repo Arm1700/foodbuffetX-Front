@@ -9,13 +9,11 @@ export const accountArray = [
   {
     id: 1,
     title: "Մուտք",
-    link: "/login",
     component: Login,
   },
   {
     id: 2,
     title: "Գրանցում",
-    link: "/register",
     component: Register,
   },
   {

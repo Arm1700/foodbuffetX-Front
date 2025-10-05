@@ -4,32 +4,45 @@ import { MealDataContext } from "../../../../context/MealDataProvider";
 export default function Favorites() {
   const { meals } = useContext(MealDataContext);
 
-  // Берём только те блюда, у которых стоит is_favorited = true
   const favorites = meals.filter((meal) => meal.is_favorited);
 
   return (
     <div className="px-[3%] py-6 h-full flex flex-col">
-      <h1 className="text-[#f93c22] text-[34px] font-bold mb-6">Սիրելի ուտեստներ</h1>
+      <h1 className="text-[#f93c22] text-2xl sm:text-[34px] font-bold mb-6">
+        Սիրելի ուտեստներ
+      </h1>
 
       {favorites.length === 0 ? (
-        <p className="text-gray-500">Դուք դեռ չեք ավելացրել ձեր սիրելի ուտեստները։</p>
+        <p className="text-gray-500 text-sm sm:text-base">
+          Դուք դեռ չեք ավելացրել ձեր սիրելի ուտեստները։
+        </p>
       ) : (
-        <div className="flex-1 overflow-y-auto max-h-[400px] pr-2 space-y-4 custom-scrollbar">
-          {favorites.map((fav) => (
-            <div
-              key={fav.id}
-              className="bg-white border rounded-xl shadow p-5 hover:shadow-lg transition"
-            >
-              <div className="flex justify-between items-center mb-2">
-                <span className="font-semibold text-[#f93c22]">{fav.name}</span>
-                {fav.price && <span className="font-bold">₽{fav.price}</span>}
+        <div className="flex-1 overflow-y-auto max-h-[400px] pr-2 custom-scrollbar">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {favorites.map((fav) => (
+              <div
+                key={fav.id}
+                className="bg-white border rounded-xl shadow p-4 sm:p-5 hover:shadow-lg transition flex flex-col"
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <span className="font-semibold text-[#f93c22] text-sm sm:text-base">
+                    {fav.name}
+                  </span>
+                  {fav.price && (
+                    <span className="font-bold text-sm sm:text-base">
+                      ₽{fav.price}
+                    </span>
+                  )}
+                </div>
+                <div className="text-gray-600 mb-3 text-xs sm:text-sm">
+                  {fav.description}
+                </div>
+                <button className="mt-auto px-3 sm:px-4 py-2 bg-[#f93c22] text-white rounded-xl hover:bg-[#e2331d] transition text-sm sm:text-base">
+                  Պատվիրել
+                </button>
               </div>
-              <div className="text-gray-600 mb-3">{fav.description}</div>
-              <button className="px-4 py-2 bg-[#f93c22] text-white rounded-xl hover:bg-[#e2331d] transition">
-                Պատվիրել
-              </button>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
 

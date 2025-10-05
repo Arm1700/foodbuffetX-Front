@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import { getAddresses, addAddress as addAddressAPI, deleteAddress } from "../../../..//shared/api/auth"; // путь к твоему файлу с API
+import { getAddresses, addAddress as addAddressAPI, deleteAddress } from "../../../..//shared/api/auth";
 
 export default function Addresses() {
   const [addresses, setAddresses] = useState([]);
   const [newAddress, setNewAddress] = useState("");
 
-  // Загружаем адреса с сервера при монтировании
   useEffect(() => {
     async function fetchAddresses() {
       try {
@@ -18,7 +17,6 @@ export default function Addresses() {
     fetchAddresses();
   }, []);
 
-  // Добавляем новый адрес
   const addAddress = async () => {
     if (!newAddress.trim()) return;
     try {
@@ -30,7 +28,6 @@ export default function Addresses() {
     }
   };
 
-  // Удаляем адрес локально (можно добавить API вызов для удаления)
   const removeAddress = async (id) => {
     try {
       await deleteAddress(id);
@@ -42,37 +39,46 @@ export default function Addresses() {
 
   return (
     <div className="px-[3%] py-6 h-full flex flex-col">
-      <h1 className="text-[#f93c22] text-[34px] font-bold mb-6">Հասցեներ</h1>
+      <h1 className="text-[#f93c22] text-2xl sm:text-[34px] font-bold mb-6">Հասցեներ</h1>
 
       {/* Addresses */}
       <div className="flex-1 overflow-y-auto max-h-[300px] pr-2 mb-6 space-y-4 custom-scrollbar">
         {addresses.map((addr) => (
-          <div key={addr.id} className="bg-white border rounded-xl shadow p-5 flex justify-between items-center hover:shadow-lg transition" >
+          <div
+            key={addr.id}
+            className="bg-white border rounded-xl shadow p-4 sm:p-5 flex justify-between items-center hover:shadow-lg transition"
+          >
             <div>
-              <div className="font-semibold text-[#f93c22]">{addr.label}</div>
-              <div className="text-gray-600">{addr.address}</div>
+              <div className="font-semibold text-[#f93c22] text-sm sm:text-base">{addr.label}</div>
+              <div className="text-gray-600 text-xs sm:text-sm">{addr.address}</div>
             </div>
-            <button onClick={() => removeAddress(addr.id)} className="px-3 py-1 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition" >
+            <button
+              onClick={() => removeAddress(addr.id)}
+              className="px-2 sm:px-3 py-1 text-xs sm:text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+            >
               Հեռացնել
             </button>
           </div>
         ))}
         {addresses.length === 0 && (
-          <p className="text-gray-500">Դուք դեռ հասցե չեք ավելացրել։</p>
+          <p className="text-gray-500 text-sm sm:text-base">Դուք դեռ հասցե չեք ավելացրել։</p>
         )}
       </div>
 
       {/* New addresses */}
       <div className="flex flex-col gap-3">
-        <h1 className="font-bold">Նոր հասցեներ</h1>
+        <h1 className="font-bold text-sm sm:text-base">Նոր հասցեներ</h1>
         <input
           type="text"
           value={newAddress}
           onChange={(e) => setNewAddress(e.target.value)}
           placeholder="Մուտքագրեք հասցե"
-          className="w-[40%] border rounded-lg px-3 py-2 mb-3"
+          className="w-full sm:w-2/3 md:w-1/2 lg:w-[40%] border rounded-lg px-3 py-2 text-sm sm:text-base"
         />
-        <button onClick={addAddress} className="w-[40%] py-2 bg-[#f93c22] text-white rounded-xl hover:bg-[#e2331d] transition" >
+        <button
+          onClick={addAddress}
+          className="w-full sm:w-2/3 md:w-1/2 lg:w-[40%] py-2 bg-[#f93c22] text-white rounded-xl hover:bg-[#e2331d] transition text-sm sm:text-base"
+        >
           Ավելացնել հասցե
         </button>
       </div>
@@ -94,7 +100,6 @@ export default function Addresses() {
           background: linear-gradient(180deg, #e2331d, #ff5c3a);
         }
       `}</style>
-
     </div>
   );
 }

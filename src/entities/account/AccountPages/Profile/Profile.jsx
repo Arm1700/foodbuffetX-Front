@@ -3,6 +3,8 @@ import { useProfile } from "../../../../context/ProfileContext";
 import DatePicker, { registerLocale } from "react-datepicker";
 import hy from "date-fns/locale/hy";
 import "react-datepicker/dist/react-datepicker.css";
+import 'react-phone-input-2/lib/style.css';
+import PhoneInput from 'react-phone-input-2';
 
 registerLocale("hy", hy);
 
@@ -15,14 +17,16 @@ export default function Profile() {
 
   return (
     <div className="px-[3%] py-6">
-      <h1 className="text-[#f93c22] text-[34px] font-bold mb-6">Պրոֆիլ</h1>
+      <h1 className="text-[#f93c22] text-2xl sm:text-[34px] font-bold mb-6">Պրոֆիլ</h1>
 
       <div className="rounded-2xl py-6">
         {/* Сообщение */}
         {message?.text && (
           <div
-            className={`mb-4 text-center text-sm px-4 py-2 rounded-lg ${
-              message.type === "success" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+            className={`mb-4 text-center text-sm px-4 py-2 rounded-lg cursor-pointer ${
+              message.type === "success"
+                ? "bg-green-100 text-green-700"
+                : "bg-red-100 text-red-700"
             }`}
             onClick={() => setMessage({ text: "", type: "" })}
           >
@@ -32,56 +36,61 @@ export default function Profile() {
 
         {/* Անուն */}
         <div className="mb-5">
-          <label className="block text-gray-700 font-medium mb-2">Անուն</label>
+          <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base">Անուն</label>
           <input
             type="text"
             value={profile.first_name}
             onChange={(e) => updateField("first_name", e.target.value)}
             placeholder="Անուն"
-            className="w-full border-2 py-[2.3%] border-gray-200 rounded-xl px-4 focus:outline-none focus:border-[#f93c22] transition"
+            className="w-full border-2 py-2 sm:py-3 border-gray-200 rounded-xl px-3 sm:px-4 focus:outline-none focus:border-[#f93c22] transition text-sm sm:text-base"
           />
         </div>
 
         {/* Ազգանուն */}
         <div className="mb-5">
-          <label className="block text-gray-700 font-medium mb-2">Ազգանուն</label>
+          <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base">Ազգանուն</label>
           <input
             type="text"
             value={profile.last_name}
             onChange={(e) => updateField("last_name", e.target.value)}
             placeholder="Ազգանուն"
-            className="w-full border-2 py-[2.3%] border-gray-200 rounded-xl px-4 focus:outline-none focus:border-[#f93c22] transition"
+            className="w-full border-2 py-2 sm:py-3 border-gray-200 rounded-xl px-3 sm:px-4 focus:outline-none focus:border-[#f93c22] transition text-sm sm:text-base"
           />
         </div>
 
-        {/* Էլ․ հասցե */}
-        <div className="mb-5">
-          <label className="block text-gray-700 font-medium mb-2">Էլ․ հասցե</label>
-          <input
-            type="email"
-            value={profile.email}
-            onChange={(e) => updateField("email", e.target.value)}
-            placeholder="example@example.com"
-            className="w-full border-2 py-[2.3%] border-gray-200 rounded-xl px-4 focus:outline-none focus:border-[#f93c22] transition"
-          />
-        </div>
+        <PhoneInput
+          country={'am'} // Армения по умолчанию
+          value={profile.phone_number}
+          onChange={(phone) => updateField("phone_number", phone)}
+          inputStyle={{
+            width: '100%',
+            borderRadius: '12px',
+            border: '2px solid #e5e7eb',
+            height: '48px',
+          }}
+          buttonStyle={{
+            border: '2px solid #e5e7eb',
+            borderRight: 'none',
+            borderRadius: '12px 0 0 12px',
+          }}
+        />
 
         {/* Ծննդյան ամսաթիվ */}
         <div className="mb-6">
-          <label className="block text-gray-700 font-medium mb-2">Ծննդյան ամսաթիվ</label>
+          <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base">Ծննդյան ամսաթիվ</label>
           <DatePicker
             selected={profile.birth_date ? new Date(profile.birth_date) : null}
             onChange={(date) => updateField("birth_date", date)}
             locale="hy"
             placeholderText="Ընտրեք ծննդյան օրը"
-            className="w-full border-2 py-[6%] border-gray-200 rounded-xl px-4 focus:outline-none focus:border-[#f93c22] transition"
+            className="w-full border-2 py-2 sm:py-3 border-gray-200 rounded-xl px-3 sm:px-4 focus:outline-none focus:border-[#f93c22] transition text-sm sm:text-base"
           />
         </div>
 
         {/* Button */}
         <button
           onClick={saveProfile}
-          className="bg-[#f93c22] text-white font-bold px-[3%] py-[3%] rounded-[15px] shadow-md hover:bg-[#d8321b] transition mt-[10%]"
+          className="w-full sm:w-auto bg-[#f93c22] text-white font-bold px-4 sm:px-6 py-2 sm:py-3 rounded-[15px] shadow-md hover:bg-[#d8321b] transition mt-6 sm:mt-10 text-sm sm:text-base"
         >
           Պահպանել փոփոխությունները
         </button>

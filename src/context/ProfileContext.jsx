@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import api from "../shared/api/axiosInstance";
+import api from "../shared/api/api";
 import { useAuth } from "./AuthContext";
 
 export const ProfileContext = createContext();
@@ -9,7 +9,7 @@ export const ProfileProvider = ({ children }) => {
   const [profile, setProfile] = useState({
     first_name: "",
     last_name: "",
-    email: "",
+    phone_number: "",
     birth_date: null,
   });
   const [loading, setLoading] = useState(true);
@@ -23,7 +23,7 @@ export const ProfileProvider = ({ children }) => {
       setLoading(true);
       setError(null);
       try {
-        const res = await api.get("profile/");
+        const res = await api.get("accounts/profile/"); // <-- путь с бэка
         setProfile({
           ...res.data,
           birth_date: res.data.birth_date ? new Date(res.data.birth_date) : null,
@@ -44,27 +44,28 @@ export const ProfileProvider = ({ children }) => {
 
   const saveProfile = async () => {
     if (!accessToken) return;
-
-    // Проверка обязательных полей
+    
     if (!profile.first_name || !profile.last_name) {
       setMessage({ text: "Խնդրում ենք լրացնել անունը և ազգանունը", type: "error" });
       return;
     }
-
-    // Проверка email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (profile.email && !emailRegex.test(profile.email)) {
-      setMessage({ text: "Խնդրում ենք մուտքագրել ճիշտ email", type: "error" });
-      return;
-    }
-
+  
     setError(null);
     try {
       const payload = {
-        ...profile,
-        birth_date: profile.birth_date ? profile.birth_date.toISOString().split("T")[0] : null,
+        first_name: profile.first_name,
+        last_name: profile.last_name,
+        phone_number: profile.phone_number?.startsWith("+")
+          ? profile.phone_number
+          : `+${profile.phone_number}`,
       };
-      const res = await api.put("profile/", payload);
+    
+      // если есть дата рождения и она объект Date
+      if (profile.birth_date instanceof Date && !isNaN(profile.birth_date)) {
+        payload.birth_date = profile.birth_date.toISOString().split("T")[0];
+      }
+    
+      const res = await api.put("accounts/profile/", payload);
       setProfile({
         ...res.data,
         birth_date: res.data.birth_date ? new Date(res.data.birth_date) : null,
