@@ -137,3 +137,54 @@
 
   
   
+/* ----------------------------------------------
+   Global responsive media queries
+   ---------------------------------------------- */
+
+/* Utility hooks for pages */
+.resp-container { width: 90%; margin-left: auto; margin-right: auto; }
+.menu-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
+.hero-title-most { font-family: serif; font-weight: 700; color: #111827; }
+.hero-subtitle-most { color: #f9fafb; }
+.hero-btn { border-radius: 0.5rem; height: 55px; }
+.deco-klor, .deco-klor2 { position: absolute; z-index: -10; }
+
+/* Mobile first */
+@media (max-width: 640px) {
+  /* Hide big decorative shapes on small screens */
+  .deco-klor, .deco-klor2 { display: none; }
+
+  /* Make hero text flow under the image */
+  .hero-title-most,
+  .hero-subtitle-most { position: static !important; left: auto !important; top: auto !important; padding: 1rem; }
+
+  .hero-title-most { font-size: 32px; line-height: 1.2; color: #111827; }
+  .hero-subtitle-most { font-size: 16px; line-height: 1.6; color: #4b5563; }
+
+  /* Buttons stack nicely */
+  .hero-btn { width: 140px; position: static !important; margin: 0.5rem 0.5rem 0 0; }
+  .section-most .resp-container { width: 92%; }
+
+  /* Products grid */
+  .menu-grid { grid-template-columns: 1fr; }
+}
+
+/* Tablet */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .deco-klor, .deco-klor2 { display: block; opacity: 0.4; }
+  .hero-title-most { font-size: 44px; }
+  .hero-subtitle-most { font-size: 18px; }
+  .menu-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .deco-klor, .deco-klor2 { display: block; opacity: 1; }
+  .hero-title-most { font-size: 64px; }
+  .menu-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+  
+
+  
+  
