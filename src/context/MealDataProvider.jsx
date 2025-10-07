@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useEffect, useMemo, useState } from "react";
 
 export const MealDataContext = createContext({
@@ -43,7 +44,7 @@ export function MealDataProvider({ children }) {
             setMeals(normalized);
             return;
           }
-        } catch (_) {
+        } catch {
           // try next endpoint
         }
       }

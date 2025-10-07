@@ -1,5 +1,5 @@
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Controller } from 'swiper/modules';
 import 'swiper/css';
@@ -36,7 +36,6 @@ export default function TestimonialsSwiper() {
             handle: '@mariagarcia'
         }
     ];
-    const [slideIndex, setSlideIndex] = useState(0);
     const swiperRef = useRef(null);
     const prevRef = useRef(null);
     const nextRef = useRef(null);
@@ -81,7 +80,6 @@ export default function TestimonialsSwiper() {
                                 instance.navigation.update();
                             }, 100);
                         }}
-                        onSlideChange={(s) => setSlideIndex(s.realIndex)}
                         slidesPerView={1.2}
                         loop
                         rewind={true}
