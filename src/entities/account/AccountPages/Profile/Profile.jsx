@@ -1,12 +1,5 @@
 import React from "react";
 import { useProfile } from "../../../../context/ProfileContext";
-import DatePicker, { registerLocale } from "react-datepicker";
-import hy from "date-fns/locale/hy";
-import "react-datepicker/dist/react-datepicker.css";
-import 'react-phone-input-2/lib/style.css';
-import PhoneInput from 'react-phone-input-2';
-
-registerLocale("hy", hy);
 
 export default function Profile() {
   const { profile, updateField, saveProfile, loading, message, setMessage, error } = useProfile();
@@ -58,31 +51,22 @@ export default function Profile() {
           />
         </div>
 
-        <PhoneInput
-          country={'am'} // Армения по умолчанию
+        <input
+          type="tel"
           value={profile.phone_number}
-          onChange={(phone) => updateField("phone_number", phone)}
-          inputStyle={{
-            width: '100%',
-            borderRadius: '12px',
-            border: '2px solid #e5e7eb',
-            height: '48px',
-          }}
-          buttonStyle={{
-            border: '2px solid #e5e7eb',
-            borderRight: 'none',
-            borderRadius: '12px 0 0 12px',
-          }}
+          onChange={(e) => updateField("phone_number", e.target.value)}
+          placeholder="Հեռախոսահամար"
+          className="w-full border-2 py-2 sm:py-3 border-gray-200 rounded-xl px-3 sm:px-4 focus:outline-none focus:border-[#f93c22] transition text-sm sm:text-base"
         />
 
         {/* Ծննդյան ամսաթիվ */}
         <div className="mb-6">
           <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base">Ծննդյան ամսաթիվ</label>
-          <DatePicker
-            selected={profile.birth_date ? new Date(profile.birth_date) : null}
-            onChange={(date) => updateField("birth_date", date)}
-            locale="hy"
-            placeholderText="Ընտրեք ծննդյան օրը"
+          <input
+            type="date"
+            value={profile.birth_date ? new Date(profile.birth_date).toISOString().split("T")[0] : ""}
+            onChange={(e) => updateField("birth_date", e.target.value ? new Date(e.target.value) : null)}
+            placeholder="Ընտրեք ծննդյան օրը"
             className="w-full border-2 py-2 sm:py-3 border-gray-200 rounded-xl px-3 sm:px-4 focus:outline-none focus:border-[#f93c22] transition text-sm sm:text-base"
           />
         </div>

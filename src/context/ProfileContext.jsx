@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useState, useEffect, useContext } from "react";
 import api from "../shared/api/api";
 import { useAuth } from "./AuthContext";

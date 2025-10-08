@@ -17,7 +17,7 @@ function Account() {
 
   useEffect(() => {
     if (isLoggedIn) setActivePage(defaultPageForLoggedIn);
-  }, [isLoggedIn]);
+  }, [isLoggedIn, defaultPageForLoggedIn]);
 
   const handleClick = (item) => {
     if (item.link === "/logout") {

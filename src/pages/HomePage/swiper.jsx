@@ -1,17 +1,9 @@
-<<<<<<< HEAD
 
 import { useRef } from 'react';
-=======
-import { useEffect, useRef, useState } from 'react'
->>>>>>> 36b51af2920f9ff311faaa832b56c4b64e09b8fb
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Controller } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-<<<<<<< HEAD
-
-=======
->>>>>>> 36b51af2920f9ff311faaa832b56c4b64e09b8fb
 export default function TestimonialsSwiper() {
     const slides = [
         {
@@ -43,10 +35,6 @@ export default function TestimonialsSwiper() {
             handle: '@mariagarcia'
         }
     ];
-<<<<<<< HEAD
-=======
-    const [slideIndex, setSlideIndex] = useState(0);
->>>>>>> 36b51af2920f9ff311faaa832b56c4b64e09b8fb
     const swiperRef = useRef(null);
     const prevRef = useRef(null);
     const nextRef = useRef(null);
@@ -60,14 +48,8 @@ export default function TestimonialsSwiper() {
             swiperRef.current.slideNext();
         }
     };
-<<<<<<< HEAD
     // Removed useEffect to prevent infinite loop
-
     return (
-
-=======
-    return (
->>>>>>> 36b51af2920f9ff311faaa832b56c4b64e09b8fb
         <div className="overflow-hidden">
             <div className="p-4 lg:p-10">
                 <div className="space-y-8 relative">
@@ -95,10 +77,6 @@ export default function TestimonialsSwiper() {
                                 instance.navigation.update();
                             }, 100);
                         }}
-<<<<<<< HEAD
-=======
-                        onSlideChange={(s) => setSlideIndex(s.realIndex)}
->>>>>>> 36b51af2920f9ff311faaa832b56c4b64e09b8fb
                         slidesPerView={1.2}
                         loop
                         rewind={true}
@@ -133,7 +111,5 @@ export default function TestimonialsSwiper() {
         </div>
 
 
-    )
-
-
+    );
 }

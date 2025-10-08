@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-export default function Povr() {
-
-
-    return (
-
-        <div>
-            <div className="relative p-20   bg-[#f7f7f7]">
-                <img className=" absolute -z-10 w-[16%] h-[40%] top-[900px] left-[100px]" src="public/klor2.svg" alt="" />
-                <div className="grid lg:grid-cols-2 mx-auto gap-16">
-                    <div className="space-y-8 ">
-=======
-import { MediaImage } from '../../shared/utils/media';
 export default function Povr() {
     return (
         <div>
@@ -18,7 +5,6 @@ export default function Povr() {
                 <img className=" absolute -z-10 w-[16%] h-[40%] top-[900px] left-[100px]" src="/klor2.svg" alt="" />
                 <div className="grid lg:grid-cols-2 gap-16">
                     <div className="space-y-8">
->>>>>>> 36b51af2920f9ff311faaa832b56c4b64e09b8fb
                         <img className="w-[610px] h-[758px] object-cover" src="https://cdn.prod.website-files.com/6648175f98e8b71e60b3e986/664ccb67504a0403838bc2d6_manhattan-new-york-chef-foodbuffet-x-webflow-template.jpg" alt="Manhattan Chef" />
                         <div className="space-y-2">
                             <p className="text-black  text-[28px]">Manhattan, New York</p>
@@ -29,11 +15,7 @@ export default function Povr() {
                             </div>
                         </div>
                     </div>
-<<<<<<< HEAD
-                    <div className="space-y-8 ">
-=======
                     <div className="space-y-8">
->>>>>>> 36b51af2920f9ff311faaa832b56c4b64e09b8fb
                         <h2 className=" text-[72px] font-bold text-black font-serif">About us</h2>
                         <p className="text-gray-600 text-[18px] leading-relaxed">
                             Lorem ipsum dolor sit amet consectetur adipiscing elit ugue quam diam vitae velit bibendum elementum eget non vivamus volutpat odio cras vestibulum lacus ut. In consequat.
@@ -48,19 +30,11 @@ export default function Povr() {
                         </div>
                         <div className="relative ">
                             <img className=" w-[78%] h-[470px] z-20 object-cover relative rounded-lg" src="https://cdn.prod.website-files.com/6648175f98e8b71e60b3e986/664ccb67c1d31fa999787c13_delicious-sushi-foodbuffet-x-webflow-template.jpg" alt="Sushi Platter" />
-<<<<<<< HEAD
-                            <img className=" text-red-500 absolute w-[40%] top-[320px] left-[380px]" src="public/klor.svg" alt="" />
-=======
                             <img className=" text-red-500 absolute w-[40%] top-[320px] left-[380px]" src="/klor.svg" alt="" />
->>>>>>> 36b51af2920f9ff311faaa832b56c4b64e09b8fb
                         </div>
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> 36b51af2920f9ff311faaa832b56c4b64e09b8fb
         </div>
 
 

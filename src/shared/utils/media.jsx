@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 // Compact media utility
 const API_BASE = 'http://localhost:8000';
 const FALLBACK_IMAGES = ['11.jpg', '8.jpg', 'bg.jpg'];
