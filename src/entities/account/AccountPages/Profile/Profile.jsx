@@ -59,9 +59,9 @@ export default function Profile() {
         </div>
 
         <PhoneInput
-          country={'am'} // Армения по умолчанию
+          country={'am'}
           value={profile.phone_number}
-          onChange={(phone) => updateField("phone_number", phone)}
+          onChange={(phone) => updateField("phone_number", phone || "")} // всегда обновляем поле
           inputStyle={{
             width: '100%',
             borderRadius: '12px',
@@ -74,6 +74,7 @@ export default function Profile() {
             borderRadius: '12px 0 0 12px',
           }}
         />
+
 
         {/* Ծննդյան ամսաթիվ */}
         <div className="mb-6">
