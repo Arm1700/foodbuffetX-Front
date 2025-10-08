@@ -7,7 +7,7 @@ import About from './widgets/pages/About/About';
 import Menu from './widgets/pages/Menu/Menu';
 import Contact from './widgets/pages/Contact/Contact';
 import Cart from './widgets/pages/Cart/Cart';
-import Account from './entities/account/Account.jsx';
+import Account from './entities/account/Account';
 
 function App() {
   return (
