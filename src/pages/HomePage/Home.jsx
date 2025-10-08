@@ -13,7 +13,6 @@ export default function Home() {
             <Menu />
             <Most />
             <TestimonialsSwiper />
-            <TestimonialsSwiper />
         </div>
     );
 }
