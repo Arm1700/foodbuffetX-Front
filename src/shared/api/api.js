@@ -1,12 +1,12 @@
 import axios from "axios";
 import { refreshAccessToken } from "./refreshAccessToken";
 
-const instance = axios.create({
-  baseURL: "http://localhost:8000/api/accounts/",
+const api = axios.create({
+  baseURL: "http://localhost:8000/api/",
   withCredentials: true,
 });
 
-instance.interceptors.request.use((config) => {
+api.interceptors.request.use(config => {
   const authData = JSON.parse(localStorage.getItem("auth") || "{}");
   if (authData.access) config.headers.Authorization = `Bearer ${authData.access}`;
   return config;
@@ -20,7 +20,7 @@ const processQueue = (error, token = null) => {
   failedQueue = [];
 };
 
-instance.interceptors.response.use(
+api.interceptors.response.use(
   response => response,
   async error => {
     const originalRequest = error.config;
@@ -32,20 +32,20 @@ instance.interceptors.response.use(
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         }).then(token => {
-          originalRequest.headers["Authorization"] = `Bearer ${token}`;
-          return instance(originalRequest);
+          originalRequest.headers.Authorization = `Bearer ${token}`;
+          return api(originalRequest);
         });
       }
 
       isRefreshing = true;
       try {
         const data = await refreshAccessToken();
-        instance.defaults.headers.common["Authorization"] = `Bearer ${data.access}`;
+        api.defaults.headers.common.Authorization = `Bearer ${data.access}`;
         processQueue(null, data.access);
         isRefreshing = false;
 
-        originalRequest.headers["Authorization"] = `Bearer ${data.access}`;
-        return instance(originalRequest);
+        originalRequest.headers.Authorization = `Bearer ${data.access}`;
+        return api(originalRequest);
       } catch (err) {
         processQueue(err, null);
         isRefreshing = false;
@@ -58,4 +58,4 @@ instance.interceptors.response.use(
   }
 );
 
-export default instance;
+export default api;

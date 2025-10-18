@@ -2,11 +2,11 @@ import axios from "./axiosInstance";
 import { refreshAccessToken } from "./refreshAccessToken";
 
 // -------- REGISTER --------
-export async function register(phone, password, password_confirm) {
+export async function register(email, first_name, last_name, password, password_confirm) {
   try {
     const res = await axios.post(
       "register/",
-      { phone, password, password_confirm },
+      { email, first_name, last_name, password, password_confirm },
       { withCredentials: true }
     );
     return res.data;
@@ -16,11 +16,25 @@ export async function register(phone, password, password_confirm) {
 }
 
 // -------- LOGIN --------
-export async function login(phone, password) {
+export async function login(email, password) {
   try {
     const res = await axios.post(
       "login/",
-      { phone, password },
+      { email, password },
+      { withCredentials: true }
+    );
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || err;
+  }
+}
+
+// -------- VERIFY EMAIL --------
+export async function verifyEmail(email, code) {
+  try {
+    const res = await axios.post(
+      "verify-email/",
+      { email, code },
       { withCredentials: true }
     );
     return res.data;
@@ -48,7 +62,6 @@ export async function addAddress(address) {
   try {
     let auth = JSON.parse(localStorage.getItem("auth") || "{}");
 
-    // если нет access, пробуем обновить
     if (!auth.access) {
       const tokens = await refreshAccessToken();
       auth.access = tokens.access;
@@ -108,8 +121,6 @@ export async function deleteAddress(id) {
     throw err.response?.data || err;
   }
 }
-
-
 
 // -------- GET MEALS --------
 export async function getMeals() {
@@ -171,4 +182,3 @@ export async function toggleFavorite(mealId) {
     throw err.response?.data || err;
   }
 }
-

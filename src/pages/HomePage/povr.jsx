@@ -1,4 +1,3 @@
-import { MediaImage } from '../../shared/utils/media';
 export default function Povr() {
     return (
         <div>

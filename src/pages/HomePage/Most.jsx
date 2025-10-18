@@ -1,5 +1,4 @@
-import { MediaImage } from '../../shared/utils/media';
-export default function () {
+export default function Most() {
     return (
         <div>
             <div className="flex flex-col sm:flex-row mt-20 gap-4 w-[90%] mx-auto justify-center items-center">

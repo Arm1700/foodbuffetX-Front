@@ -1,12 +1,19 @@
-// refreshAccessToken.js
-import axios from "./axiosInstance";
+import axios from "axios";
 
 export async function refreshAccessToken() {
-  // Отправляем POST /refresh/ с куки, body может быть пустым
-  const response = await axios.post("refresh/", {}, { withCredentials: true });
-
-  // Обновляем access в localStorage
   const auth = JSON.parse(localStorage.getItem("auth") || "{}");
+  const refresh = auth?.refresh;
+
+  if (!refresh) {
+    throw new Error("Нет refresh токена");
+  }
+
+  const response = await axios.post(
+    "http://localhost:8000/api/accounts/refresh/",
+    { refresh },
+    { withCredentials: true }
+  );
+
   const newAuth = { ...auth, access: response.data.access };
   localStorage.setItem("auth", JSON.stringify(newAuth));
 

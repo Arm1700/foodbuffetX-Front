@@ -1,35 +1,35 @@
-import React, { createContext, useContext, useState } from "react";
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useContext, useEffect, useState } from "react";
 
-export const AuthContext = createContext(null);
+export const AuthContext = createContext({ user: null, accessToken: null });
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    const data = localStorage.getItem("auth");
-    return data ? JSON.parse(data).user : null;
-  });
-  const [accessToken, setAccessToken] = useState(() => {
-    return localStorage.getItem("access") || null;
-  });
+export function AuthProvider({ children }) {
+  const [accessToken, setAccessToken] = useState(null);
+  const [user, setUser] = useState(null);
 
-  const saveAuth = (data) => {
-    setUser(data.user);
-    setAccessToken(data.access);
-    localStorage.setItem("auth", JSON.stringify(data));
-    localStorage.setItem("access", data.access);
-  };
+  useEffect(() => {
+    const token = typeof window !== "undefined" ? localStorage.getItem("access") : null;
+    setAccessToken(token);
+    setUser(token ? { id: "local", username: "user" } : null);
+  }, []);
 
   const clearAuth = () => {
-    setUser(null);
+    try {
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("access");
+      }
+    } catch (e) {
+      console.warn("clearAuth: localStorage remove failed", e);
+    }
     setAccessToken(null);
-    localStorage.removeItem("auth");
-    localStorage.removeItem("access");
+    setUser(null);
   };
 
-  return (
-    <AuthContext.Provider value={{ user, accessToken, saveAuth, clearAuth }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
+  const value = { user, accessToken, clearAuth };
 
-export const useAuth = () => useContext(AuthContext);
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+export function useAuth() {
+  return useContext(AuthContext);
+}
