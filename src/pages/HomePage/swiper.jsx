@@ -1,10 +1,9 @@
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Controller } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-
 export default function TestimonialsSwiper() {
     const slides = [
         {
@@ -36,7 +35,6 @@ export default function TestimonialsSwiper() {
             handle: '@mariagarcia'
         }
     ];
-    const [slideIndex, setSlideIndex] = useState(0);
     const swiperRef = useRef(null);
     const prevRef = useRef(null);
     const nextRef = useRef(null);
@@ -51,9 +49,7 @@ export default function TestimonialsSwiper() {
         }
     };
     // Removed useEffect to prevent infinite loop
-
     return (
-
         <div className="overflow-hidden">
             <div className="p-4 lg:p-10">
                 <div className="space-y-8 relative">
@@ -81,7 +77,6 @@ export default function TestimonialsSwiper() {
                                 instance.navigation.update();
                             }, 100);
                         }}
-                        onSlideChange={(s) => setSlideIndex(s.realIndex)}
                         slidesPerView={1.2}
                         loop
                         rewind={true}
@@ -116,7 +111,5 @@ export default function TestimonialsSwiper() {
         </div>
 
 
-    )
-
-
+    );
 }

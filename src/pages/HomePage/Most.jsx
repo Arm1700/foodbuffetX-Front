@@ -1,26 +1,35 @@
-export default function () {
+export default function Most() {
     return (
         <div>
-                        <div className="flex mt-20 gap-4  w-[90%] mx-auto justify-center items-center ">
-                <button className="button-hover relative overflow-hidden bg-red-500 text-white font-semibold py-2 rounded-lg w-[140px] h-[55px] shine text-ls">
+            <div className="flex flex-col sm:flex-row mt-20 gap-4 w-[90%] mx-auto justify-center items-center">
+                <button className="button-hover relative overflow-hidden bg-red-500 text-white font-semibold py-3 px-6 rounded-lg w-full sm:w-[140px] h-[55px] shine text-sm">
                     Call
                 </button>
-                <button className="bg-white border-2 border-black text-[#292929] font-semibold py-3 px-8 rounded-lg hover:bg-gray-50 transition-colors duration-300 w-[145px] h-[55px] shine text-xs">
+                <button className="bg-white border-2 border-black text-[#292929] font-semibold py-3 px-6 rounded-lg hover:bg-gray-50 transition-colors duration-300 w-full sm:w-[145px] h-[55px] shine text-sm">
                     Browse Menu
                 </button>
             </div>
-            <div className="w-full mx-auto mt-20">
-                <img className="absolute -z-10 w-[16%] h-[40%] top-[3090px] left-[1100px]" src="public/klor2.svg" alt="" />
-                <div className="relative w-full inline-block ">
-                    <img src="public/11.jpg" alt="" />
-                    <h1 className="absolute text-4xl md:text-5xl font-bold text-black font-serif top-[300px] left-[100px] text-white leading-tight">Taste the most <br /> delicious sushi in <br /> New York</h1>
-                    <p className="absolute text-white text-lg leading-relaxed top-[500px] left-[100px]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mi <br /> scelerisque dignissim vulputate vulputate posuere. Ipsum quis.</p>
-                    <button className="button-hover absolute top-[-501px] right-[-120px] relative overflow-hidden bg-red-500 text-white font-semibold py-2 rounded-lg w-[140px] h-[55px] shine text-ls">
-                        Call
-                    </button>
-                    <button className="bg-white border-2  absolute top-[619px] right-[1073px] text-[#292929] font-semibold py-3 px-8 rounded-lg hover:bg-gray-50 transition-colors duration-300 w-[145px] h-[55px] shine text-xs">
-                        Browse Menu
-                    </button>
+            <div className="w-full mx-auto mt-20 relative">
+                <img className="absolute -z-10 w-[16%] h-[40%] top-[200px] right-[10%] hidden lg:block" src="/klor2.svg" alt="" />
+                <div className="relative w-full">
+                    <img className="w-full h-auto object-cover" src="/11.jpg" alt="" />
+                    {/* Content overlay */}
+                    <div className="absolute inset-0 flex flex-col justify-center items-start p-8 md:p-16 lg:p-24">
+                        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white font-serif leading-tight mb-4 md:mb-6">
+                            Taste the most <br /> delicious sushi in <br /> New York
+                        </h1>
+                        <p className="text-white text-sm sm:text-base md:text-lg leading-relaxed mb-6 md:mb-8 max-w-md">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mi scelerisque dignissim vulputate vulputate posuere. Ipsum quis.
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <button className="button-hover relative overflow-hidden bg-red-500 text-white font-semibold py-3 px-6 rounded-lg w-full sm:w-[140px] h-[55px] shine text-sm">
+                                Call
+                            </button>
+                            <button className="bg-white border-2 border-black text-[#292929] font-semibold py-3 px-6 rounded-lg hover:bg-gray-50 transition-colors duration-300 w-full sm:w-[145px] h-[55px] shine text-sm">
+                                Browse Menu
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

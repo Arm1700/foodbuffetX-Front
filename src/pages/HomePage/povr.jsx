@@ -1,11 +1,8 @@
 export default function Povr() {
-
-
     return (
-
         <div>
             <div className="relative p-20  bg-[#f7f7f7]">
-                <img className=" absolute -z-10 w-[16%] h-[40%] top-[900px] left-[100px]" src="public/klor2.svg" alt="" />
+                <img className=" absolute -z-10 w-[16%] h-[40%] top-[900px] left-[100px]" src="/klor2.svg" alt="" />
                 <div className="grid lg:grid-cols-2 gap-16">
                     <div className="space-y-8">
                         <img className="w-[610px] h-[758px] object-cover" src="https://cdn.prod.website-files.com/6648175f98e8b71e60b3e986/664ccb67504a0403838bc2d6_manhattan-new-york-chef-foodbuffet-x-webflow-template.jpg" alt="Manhattan Chef" />
@@ -33,12 +30,11 @@ export default function Povr() {
                         </div>
                         <div className="relative ">
                             <img className=" w-[78%] h-[470px] z-20 object-cover relative rounded-lg" src="https://cdn.prod.website-files.com/6648175f98e8b71e60b3e986/664ccb67c1d31fa999787c13_delicious-sushi-foodbuffet-x-webflow-template.jpg" alt="Sushi Platter" />
-                            <img className=" text-red-500 absolute w-[40%] top-[320px] left-[380px]" src="public/klor.svg" alt="" />
+                            <img className=" text-red-500 absolute w-[40%] top-[320px] left-[380px]" src="/klor.svg" alt="" />
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
 

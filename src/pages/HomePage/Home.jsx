@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import New from './New';
 import Povr from './povr';
 import Menu from './Menu';
 import Most from './Most';
-import Swiper from './swiper';
+import TestimonialsSwiper from './swiper';
 export default function Home() {
     return (
         <div>
@@ -13,7 +12,7 @@ export default function Home() {
             <Povr />
             <Menu />
             <Most />
-            <Swiper />
+            <TestimonialsSwiper />
         </div>
     );
 }
