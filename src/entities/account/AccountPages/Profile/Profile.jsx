@@ -59,6 +59,7 @@ export default function Profile() {
           className="w-full border-2 py-2 sm:py-3 border-gray-200 rounded-xl px-3 sm:px-4 focus:outline-none focus:border-[#f93c22] transition text-sm sm:text-base"
         />
 
+
         {/* Ծննդյան ամսաթիվ */}
         <div className="mb-6">
           <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base">Ծննդյան ամսաթիվ</label>
