@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 export default function Header() {
   return (
-    <div className="fixed top-0 left-0 w-full z-50 bg-black text-white p-4 flex justify-around items-cente">
+    <div className="fixed top-0 left-0 w-full z-50 bg-black text-white p-4 flex justify-center">
 
   
 
@@ -15,6 +15,10 @@ export default function Header() {
             </Link>  
             <Link to="/Contact">Contact</Link>
             <Link to="/Cart">Cart</Link>
+      </div>
+
+      <div className="absolute right-4 top-4">
+        <Link to="/Account">Login/Register</Link>
       </div>
     </div>
   )

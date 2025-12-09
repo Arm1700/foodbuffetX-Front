@@ -9,6 +9,8 @@ import Menu from './widgets/pages/Menu/Menu';
 import Contact from './widgets/pages/Contact/Contact';
 import Cart from './widgets/pages/Cart/Cart';
 import Footer from './widgets/footer/Footer';
+import Account from './entities/account/account';
+
 
 function App() {
   return (
@@ -20,6 +22,7 @@ function App() {
         <Route path="/Menu" element={<Menu />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Cart" element={<Cart />} />
+        <Route path="/Account" element={<Account />} />
       </Routes>
       <Footer />
     </>
