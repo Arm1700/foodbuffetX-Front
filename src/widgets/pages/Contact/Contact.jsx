@@ -7,7 +7,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineLocalPostOffice } from "react-icons/md";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { IoCallOutline } from "react-icons/io5";
-
+//Update
 export default function RestaurantSlider() {
   const restaurants = [
     {
