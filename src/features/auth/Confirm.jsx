@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { verifyEmail } from "../../shared/api/auth";
 
-export default function Confirm({ confirmOpen, setConfirmOpen, handleSubmit }) {
+export default function Confirm({ confirmOpen, setConfirmOpen, handleSubmit, saveAuth }) {
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -11,19 +11,24 @@ export default function Confirm({ confirmOpen, setConfirmOpen, handleSubmit }) {
     setLoading(true);
     try {
       const form = JSON.parse(localStorage.getItem("authForm") || "{}");
-      if (!form.email) throw new Error("Email not found");
-
-      await verifyEmail(form.email, code);
-
+      if (!form.email || !form.password) throw new Error("Email или пароль не найдены");
+    
+      // Передаём email, код и пароль на бэкенд
+      const data = await verifyEmail(form.email, code, form.password);
+    
+      saveAuth(data); // сохраняем токены и данные пользователя
       alert("Էլ․ հասցեն հաջողությամբ հաստատվեց։ Այժմ մուտք գործեք։");
+    
       setConfirmOpen(false);
-      handleSubmit();
+      handleSubmit(); // navigate("/Account")
     } catch (err) {
-      setError(err.message || "Հաստատման սխալ");
+      setError(err?.error || "Հաստատման սխալ");
     } finally {
       setLoading(false);
     }
   };
+  
+
 
   if (!confirmOpen) return null;
 
@@ -70,4 +75,3 @@ export default function Confirm({ confirmOpen, setConfirmOpen, handleSubmit }) {
     </div>
   );
 }
-  

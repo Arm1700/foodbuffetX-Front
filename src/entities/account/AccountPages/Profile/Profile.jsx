@@ -1,5 +1,13 @@
 import React from "react";
 import { useProfile } from "../../../../context/ProfileContext";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { hy } from "date-fns/locale";
+import { subYears } from "date-fns";
+
+
 
 export default function Profile() {
   const { profile, updateField, saveProfile, loading, message, setMessage, error } = useProfile();
@@ -7,6 +15,8 @@ export default function Profile() {
   if (loading) return <div>Loading...</div>;
   if (error) return <div className="text-red-600">{JSON.stringify(error)}</div>;
   if (!profile) return <div>No profile</div>;
+
+  const minAgeDate = subYears(new Date(), 12);
 
   return (
     <div className="px-[3%] py-6">
@@ -50,27 +60,45 @@ export default function Profile() {
             className="w-full border-2 py-2 sm:py-3 border-gray-200 rounded-xl px-3 sm:px-4 focus:outline-none focus:border-[#f93c22] transition text-sm sm:text-base"
           />
         </div>
+        
+        <div className="mb-5">
+          <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base">Հեռախոսահամար</label>
 
-        <input
-          type="tel"
-          value={profile.phone_number}
-          onChange={(e) => updateField("phone_number", e.target.value)}
-          placeholder="Հեռախոսահամար"
-          className="w-full border-2 py-2 sm:py-3 border-gray-200 rounded-xl px-3 sm:px-4 focus:outline-none focus:border-[#f93c22] transition text-sm sm:text-base"
-        />
+          <PhoneInput
+            country="am"
+            enableSearch
+            value={profile.phone_number}
+            onChange={(value) => updateField("phone_number", "+" + value)}
+            inputClass="!w-full !border-2 !border-gray-200 !rounded-xl !py-2 sm:!py-3 !pr-3 sm:!pr-4 !text-sm sm:!text-base"
+          />
+
+          {/* Мини-ошибка — мягкая */}
+          {message?.type === "phone-error" && (
+            <div className="text-red-600 text-sm mt-1">{message.text}</div>
+          )}
+        </div>
+
 
 
         {/* Ծննդյան ամսաթիվ */}
         <div className="mb-6">
           <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base">Ծննդյան ամսաթիվ</label>
-          <input
-            type="date"
-            value={profile.birth_date ? new Date(profile.birth_date).toISOString().split("T")[0] : ""}
-            onChange={(e) => updateField("birth_date", e.target.value ? new Date(e.target.value) : null)}
-            placeholder="Ընտրեք ծննդյան օրը"
-            className="w-full border-2 py-2 sm:py-3 border-gray-200 rounded-xl px-3 sm:px-4 focus:outline-none focus:border-[#f93c22] transition text-sm sm:text-base"
-          />
+
+          <DatePicker
+  selected={profile.birth_date}
+  onChange={(date) => updateField("birth_date", date)}
+  placeholderText="Ընտրեք ամսաթիվը"
+  dateFormat="dd.MM.yyyy"
+  locale={hy}
+  maxDate={minAgeDate}   // 🔥 нельзя выбрать младше 12
+  showYearDropdown
+  scrollableYearDropdown
+  yearDropdownItemNumber={100}
+  className="w-full border-2 py-2 sm:py-3 border-gray-200 rounded-xl px-3 sm:px-4 focus:outline-none focus:border-[#f93c22]"
+/>
+
         </div>
+
 
         {/* Button */}
         <button

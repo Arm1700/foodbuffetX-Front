@@ -10,7 +10,6 @@ export const AuthContext = createContext({
 });
 
 export function AuthProvider({ children }) {
-  // --- STATES ---
   const [user, setUser] = useState(() => {
     const data = localStorage.getItem("auth");
     return data ? JSON.parse(data).user : null;
@@ -85,7 +84,6 @@ export function AuthProvider({ children }) {
         console.log("✅ Access токен успешно обновлён");
       } catch (err) {
         console.error("❌ Ошибка обновления токена:", err);
-
         const status = err.response?.status;
 
         if (status === 401 || status === 403) clearAuth();
@@ -96,12 +94,12 @@ export function AuthProvider({ children }) {
     };
 
     refreshAccessToken();
-    const interval = setInterval(refreshAccessToken, 3600000);
+
+    const interval = setInterval(refreshAccessToken, 5 * 60 * 1000);
 
     return () => clearInterval(interval);
   }, [refreshToken]);
 
-  // --- CONTEXT VALUE ---
   const value = { user, accessToken, saveAuth, clearAuth };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

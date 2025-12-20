@@ -6,6 +6,8 @@ import Confirm from "./Confirm";
 
 export default function Register() {
   const { saveAuth } = useAuth();
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     email: "",
     first_name: "",
@@ -13,10 +15,10 @@ export default function Register() {
     password: "",
     password_confirm: "",
   });
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const navigate = useNavigate();
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -26,10 +28,11 @@ export default function Register() {
     setError("");
     setLoading(true);
     try {
-      // Сохраняем форму в localStorage для Confirm
+      // Сохраняем форму временно для Confirm
       localStorage.setItem("authForm", JSON.stringify(form));
 
-      const data = await register(
+      // Отправляем код на почту
+      await register(
         form.email,
         form.first_name,
         form.last_name,
@@ -37,15 +40,9 @@ export default function Register() {
         form.password_confirm
       );
 
-      console.log("Register response:", data);
-      saveAuth(data);
-      localStorage.setItem("auth", JSON.stringify(data));
-
-      // После успешной регистрации открываем Confirm
-      setConfirmOpen(true);
+      setConfirmOpen(true); // открываем окно подтверждения
     } catch (err) {
-      if (err.response?.data?.email) setError("Այս էլ․ հասցեն արդեն գրանցված է");
-      else setError(err.response?.data?.error || "Գրանցման սխալ");
+      setError(err?.error || "Գրանցման սխալ");
     } finally {
       setLoading(false);
     }
@@ -65,11 +62,51 @@ export default function Register() {
           </div>
         )}
 
-        <input name="email" type="email" placeholder="Էլ․ հասցե" value={form.email} onChange={handleChange} required className="w-full py-[5%] border border-gray-300 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-[#f93c22] shadow-sm transition" />
-        <input name="first_name" type="text" placeholder="Անուն" value={form.first_name} onChange={handleChange} required className="w-full py-[5%] border border-gray-300 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-[#f93c22] shadow-sm transition" />
-        <input name="last_name" type="text" placeholder="Ազգանուն" value={form.last_name} onChange={handleChange} required className="w-full py-[5%] border border-gray-300 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-[#f93c22] shadow-sm transition" />
-        <input name="password" type="password" placeholder="Գաղտնաբառ" value={form.password} onChange={handleChange} required className="w-full py-[5%] border border-gray-300 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-[#f93c22] shadow-sm transition" />
-        <input name="password_confirm" type="password" placeholder="Կրկնեք գաղտնաբառը" value={form.password_confirm} onChange={handleChange} required className="w-full py-[5%] border border-gray-300 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-[#f93c22] shadow-sm transition" />
+        <input
+          name="email"
+          type="email"
+          placeholder="Էլ․ հասցե"
+          value={form.email}
+          onChange={handleChange}
+          required
+          className="w-full py-[5%] border border-gray-300 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-[#f93c22] shadow-sm transition"
+        />
+        <input
+          name="first_name"
+          type="text"
+          placeholder="Անուն"
+          value={form.first_name}
+          onChange={handleChange}
+          required
+          className="w-full py-[5%] border border-gray-300 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-[#f93c22] shadow-sm transition"
+        />
+        <input
+          name="last_name"
+          type="text"
+          placeholder="Ազգանուն"
+          value={form.last_name}
+          onChange={handleChange}
+          required
+          className="w-full py-[5%] border border-gray-300 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-[#f93c22] shadow-sm transition"
+        />
+        <input
+          name="password"
+          type="password"
+          placeholder="Գաղտնաբառ"
+          value={form.password}
+          onChange={handleChange}
+          required
+          className="w-full py-[5%] border border-gray-300 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-[#f93c22] shadow-sm transition"
+        />
+        <input
+          name="password_confirm"
+          type="password"
+          placeholder="Կրկնեք գաղտնաբառը"
+          value={form.password_confirm}
+          onChange={handleChange}
+          required
+          className="w-full py-[5%] border border-gray-300 rounded-xl px-4 focus:outline-none focus:ring-2 focus:ring-[#f93c22] shadow-sm transition"
+        />
 
         <button
           type="button"
@@ -88,6 +125,7 @@ export default function Register() {
           confirmOpen={confirmOpen}
           setConfirmOpen={setConfirmOpen}
           handleSubmit={() => navigate("/Account")}
+          saveAuth={saveAuth} // передаем функцию для сохранения токена
         />
       </form>
     </div>
