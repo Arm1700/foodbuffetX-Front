@@ -30,18 +30,20 @@ export async function login(email, password) {
 }
 
 // -------- VERIFY EMAIL --------
-export async function verifyEmail(email, code) {
-  try {
-    const res = await axios.post(
-      "verify-email/",
-      { email, code },
-      { withCredentials: true }
-    );
-    return res.data;
-  } catch (err) {
-    throw err.response?.data || err;
+export async function verifyEmail(email, code, password) {
+  const res = await fetch("http://localhost:8000/api/accounts/verify-email/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, code, password }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json();
+    throw err;
   }
+  return res.json();
 }
+
 
 // -------- LOGOUT --------
 export async function logout(refresh) {
