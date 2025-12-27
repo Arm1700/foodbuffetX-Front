@@ -7,14 +7,20 @@ import { DataProvider } from "./context/DataProvider.jsx";
 import MealDataProvider from "./context/MealDataProvider.jsx"; 
 import { AuthProvider } from "./context/AuthContext";
 import { ProfileProvider } from "./context/ProfileContext.jsx";
+import { CartProvider } from "./context/CartContext";
+import { OrdersProvider } from "./context/OrdersContext";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <AuthProvider>
-      <DataProvider>
+      <DataProvider> {/* если нужен */}
         <ProfileProvider>
           <MealDataProvider>
-            <App />
+            <CartProvider>
+              <OrdersProvider>
+                <App />
+              </OrdersProvider>
+            </CartProvider>
           </MealDataProvider>
         </ProfileProvider>
       </DataProvider>

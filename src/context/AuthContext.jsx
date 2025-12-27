@@ -9,13 +9,8 @@ export const AuthProvider = ({ children }) => {
     return data ? JSON.parse(data).user : null;
   });
 
-  const [accessToken, setAccessToken] = useState(() => {
-    return localStorage.getItem("access") || null;
-  });
-
-  const [refreshToken, setRefreshToken] = useState(() => {
-    return localStorage.getItem("refresh") || null;
-  });
+  const [accessToken, setAccessToken] = useState(() => localStorage.getItem("access") || null);
+  const [refreshToken, setRefreshToken] = useState(() => localStorage.getItem("refresh") || null);
 
   useEffect(() => {
     if (accessToken) {
@@ -82,8 +77,7 @@ export const AuthProvider = ({ children }) => {
 
     refreshAccessToken();
 
-    const interval = setInterval(refreshAccessToken, 3600000);
-
+    const interval = setInterval(refreshAccessToken, 3600000); // обновление каждый час
     return () => clearInterval(interval);
   }, [refreshToken]);
 

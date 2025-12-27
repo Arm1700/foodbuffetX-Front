@@ -35,7 +35,7 @@ function Account() {
 
   return (
     <div className="w-full min-h-screen py-[23%] sm:py-[17%] md:py-[15%] mdlg:py-[13%] lg:py-[11%] lgg:py-[9%] xl:py-[7%] 2xl:py-[5%] relative overflow-hidden bg-gradient-to-r from-black via-[#1b1b1b] to-black">
-      <div className=" w-full minsm:w-[100%] sm:w-[95%] md:w-[80%] mdlg:w-[70%] lg:w-[67%] 2xl:w-[50%] sm:h-auto md:h-[750px] lgg:h-[930px] xl:h-[800px] mx-auto rounded-[20px] bg-white shadow-md flex flex-col " >
+      <div className=" w-full minsm:w-[100%] sm:w-[95%] md:w-[80%] mdlg:w-[70%] lg:w-[70%] 2xl:w-[50%] sm:h-auto md:h-[750px] lg:h-[830px] lgg:h-[930px] xl:h-[800px] mx-auto rounded-[20px] bg-white shadow-md flex flex-col " >
         {/* Header */}
         <div className=" w-full h-[120px] sm:h-[140px] lg:h-[150px] rounded-t-[17px] flex items-center justify-center flex-col gap-1 bg-gradient-to-r from-black via-[#1a1a1a] to-[#1b1b1b] " >
           <h1 className="text-[#f93c22] text-[24px] sm:text-[30px] lg:text-[36px] font-bold">
@@ -53,11 +53,7 @@ function Account() {
             {isLoggedIn ? (
               <>
                 <div className="w-[50%] h-full sm:w-full sm:order-2">
-                  <AccButton
-                    activePage={activePage}
-                    handleClick={handleClick}
-                    isLoggedIn={isLoggedIn}
-                  />
+                  <AccButton activePage={activePage} handleClick={handleClick} isLoggedIn={isLoggedIn} />
                 </div>
 
                 <div className="w-[50%] h-[40%] sm:w-full sm:order-1">
@@ -76,11 +72,7 @@ function Account() {
               </>
             ) : (
               <div className="w-[100%] sm:gap-4">
-                <AccButton
-                  activePage={activePage}
-                  handleClick={handleClick}
-                  isLoggedIn={isLoggedIn}
-                />
+                <AccButton activePage={activePage} handleClick={handleClick} isLoggedIn={isLoggedIn} />
               </div>
             )}
           </div>

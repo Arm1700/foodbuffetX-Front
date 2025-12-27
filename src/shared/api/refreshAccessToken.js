@@ -1,21 +1,21 @@
 import axios from "axios";
 
 export async function refreshAccessToken() {
-  const auth = JSON.parse(localStorage.getItem("auth") || "{}");
-  const refresh = auth?.refresh;
+  const refresh = localStorage.getItem("refresh");
 
   if (!refresh) {
     throw new Error("Нет refresh токена");
   }
 
   const response = await axios.post(
-    "http://localhost:8000/api/accounts/refresh/",
+    "http://localhost:8000/api/accounts/token/refresh/",
     { refresh },
     { withCredentials: true }
   );
 
-  const newAuth = { ...auth, access: response.data.access };
-  localStorage.setItem("auth", JSON.stringify(newAuth));
+  const newAccess = response.data.access;
 
-  return response.data;
+  localStorage.setItem("access", newAccess);
+
+  return { access: newAccess };
 }

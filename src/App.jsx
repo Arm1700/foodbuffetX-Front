@@ -8,6 +8,7 @@ import Menu from './widgets/pages/Menu/Menu';
 import Contact from './widgets/pages/Contact/Contact';
 import Cart from './widgets/pages/Cart/Cart';
 import Account from './entities/account/account';
+import MenuProduct from './widgets/pages/Menu/MenuProduct';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/About' element={<About />}/>
         <Route path="/Menu" element={<Menu />} />
+        <Route path="/product/:id" element={<MenuProduct />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Cart" element={<Cart />} />
         <Route path="/Account" element={<Account />} />
