@@ -7,13 +7,16 @@ import { BrowserRouter } from "react-router-dom";
 import { MealDataProvider } from "./context/MealDataProvider";
 import { AuthProvider } from "./context/AuthContext";
 import { ProfileProvider } from "./context/ProfileContext.jsx";
+import { CartProvider } from "./context/CartContext";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <AuthProvider>
       <ProfileProvider>
         <MealDataProvider>
-          <App />
+          <CartProvider>
+            <App />
+          </CartProvider>
         </MealDataProvider>
       </ProfileProvider>
     </AuthProvider>

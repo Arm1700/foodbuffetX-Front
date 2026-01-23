@@ -23,14 +23,14 @@ export default function Login() {
       navigate("/Account");
     } catch (err) {
       console.log(err);
-      setError(err.error || err.detail || "Մուտքի սխալ");
+      setError(err.error || err.detail || "Login error");
     }
   }
 
   return (
     <div className="px-[3%] py-6 h-full flex justify-center items-start mt-[23%]">
       <form className="rounded-2xl p-8 w-full max-w-md space-y-5" onSubmit={handleSubmit}>
-        <h2 className="text-[#f93c22] text-3xl font-bold text-center mb-4">Մուտք</h2>
+        <h2 className="text-[#f93c22] text-3xl font-bold text-center mb-4">Login</h2>
 
         {error && (
           <div className="bg-red-100 text-red-700 px-4 py-2 rounded-lg text-center">
@@ -40,7 +40,7 @@ export default function Login() {
 
         <input
           type="email"
-          placeholder="Էլ․ հասցե"
+          placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -49,7 +49,7 @@ export default function Login() {
 
         <input
           type="password"
-          placeholder="Գաղտնաբառ"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -60,7 +60,7 @@ export default function Login() {
           type="submit"
           className="w-full py-3 bg-gradient-to-r from-[#f93c22] to-[#ff724f] text-white font-semibold rounded-2xl hover:from-[#e2331d] hover:to-[#ff5c3a] transition"
         >
-          Մուտք գործել
+          Sign In
         </button>
       </form>
     </div>

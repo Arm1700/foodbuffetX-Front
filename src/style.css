@@ -154,6 +154,58 @@
 .grid-2-columns { grid-template-columns: 1fr; }
 .section-about-grid-v1 { width: 90%; margin-left: auto; margin-right: auto; gap: 2rem; align-items: start; }
 
+/* Hero layout v1 grid for About page */
+.hero-layout-v1-grid {
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.hero-layout-v1-image-wrapper-01,
+.hero-layout-v1-image-wrapper-02 {
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+}
+
+.hero-layout-v1-image-01,
+.hero-layout-v1-image-02 {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-layout-v1-content-01,
+.hero-layout-v1-content-02 {
+  padding: 1rem 0;
+}
+
+.display-1 {
+  font-family: serif;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.color-accent-1 {
+  color: #dc2626; /* red-600 */
+}
+
+.mg-top-small {
+  margin-top: 1rem;
+}
+
+.mg-top-default {
+  margin-top: 1.5rem;
+}
+
+.text-no-wrap {
+  white-space: nowrap;
+}
+
+.z-index-1 {
+  position: relative;
+  z-index: 1;
+}
+
 /* Webflow-like container classes */
 :root {
   --container-pad-mobile: 16px;
@@ -199,6 +251,33 @@
   .menu-grid { grid-template-columns: repeat(2, 1fr); }
   .grid-2-columns { grid-template-columns: repeat(2, 1fr); }
   .w-container { max-width: 728px; padding-left: var(--container-pad-tablet); padding-right: var(--container-pad-tablet); }
+  
+  /* Hero layout v1 grid for tablet */
+  .hero-layout-v1-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto auto;
+  }
+  
+  .hero-layout-v1-image-wrapper-01 {
+    grid-row: 1 / 3;
+    min-height: 500px;
+  }
+  
+  .hero-layout-v1-content-01 {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  
+  .hero-layout-v1-content-02 {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  
+  .hero-layout-v1-image-wrapper-02 {
+    grid-column: 2;
+    grid-row: 3;
+    min-height: 300px;
+  }
 }
 
 /* Desktop */
@@ -208,11 +287,254 @@
   .menu-grid { grid-template-columns: repeat(4, 1fr); }
   .grid-2-columns { grid-template-columns: repeat(2, 1fr); }
   .w-container { max-width: 940px; padding-left: var(--container-pad-desktop); padding-right: var(--container-pad-desktop); }
+  
+  /* Hero layout v1 grid for desktop */
+  .hero-layout-v1-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto auto;
+    gap: 2.5rem;
+  }
+  
+  .hero-layout-v1-image-wrapper-01 {
+    grid-row: 1 / 3;
+    min-height: 600px;
+  }
+  
+  .hero-layout-v1-content-01 {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  
+  .hero-layout-v1-content-02 {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  
+  .hero-layout-v1-image-wrapper-02 {
+    grid-column: 2;
+    grid-row: 3;
+    min-height: 400px;
+  }
 }
 
 /* Large screens */
 @media (min-width: 1280px) {
   .w-container { max-width: 1140px; }
+  
+  /* Hero layout v1 grid for large screens */
+  .hero-layout-v1-image-wrapper-01 {
+    min-height: 700px;
+  }
+  
+  .hero-layout-v1-image-wrapper-02 {
+    min-height: 450px;
+  }
+}
+
+/* Product page grid */
+.product-page {
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+@media (min-width: 768px) {
+  .product-page {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.product-page-image {
+  min-height: 400px;
+  max-height: 600px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .product-page-image {
+    min-height: 500px;
+    max-height: 700px;
+  }
+}
+
+.border-line-white-image {
+  border: none;
+}
+
+/* Footer styles */
+.footer-wrapper {
+  background-color: #000;
+  color: #fff;
+}
+
+.grid-footer {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .grid-footer {
+    grid-template-columns: 1fr auto 2fr;
+  }
+}
+
+.grid-footer-left-side {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .grid-footer-left-side {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.footer-page-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.nav-menu-list-wrapper {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-menu-list-item {
+  margin-bottom: 0.5rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.grid-subscribe-form-button-down {
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .grid-subscribe-form-button-down {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+.instagram-gallery {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .instagram-gallery {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Our Instagram Section */
+.pd-240px {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+@media (min-width: 768px) {
+  .pd-240px {
+    padding-top: 120px;
+    padding-bottom: 120px;
+  }
+}
+
+.bg-neutral-200 {
+  background-color: #f5f5f5;
+}
+
+.gallery-grid-v1 {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  grid-auto-rows: minmax(250px, 1fr);
+}
+
+@media (min-width: 768px) {
+  .gallery-grid-v1 {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    grid-auto-rows: minmax(300px, 1fr);
+  }
+  
+  .gallery-grid-v1 > a:first-child {
+    grid-row: span 2;
+  }
+}
+
+.instagram-feed---image-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  min-height: 250px;
+}
+
+@media (min-width: 768px) {
+  .instagram-feed---image-wrapper {
+    min-height: 300px;
+  }
+  
+  .instagram-feed---image-wrapper:first-child {
+    min-height: 600px;
+  }
+}
+
+.instagram-feed---image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  display: block;
+}
+
+.instagram-feed---image-wrapper:hover .instagram-feed---image {
+  transform: scale(1.05);
+}
+
+.instagram-feed---image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.instagram-feed---image-wrapper:hover .instagram-feed---image-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.instagram-feed---icon-inside {
+  width: 3rem;
+  height: 3rem;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: scale(1.2) rotate(-4deg);
+}
+
+.instagram-feed---image-wrapper:hover .instagram-feed---icon-inside {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.instagram-feed---icon-inside.featured {
+  width: 4rem;
+  height: 4rem;
+}
+
+@media (min-width: 768px) {
+  .instagram-feed---image-wrapper:first-child {
+    grid-row: span 2;
+  }
 }
 
   

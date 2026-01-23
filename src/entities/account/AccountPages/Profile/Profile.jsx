@@ -4,7 +4,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { hy } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import { subYears } from "date-fns";
 
 
@@ -20,10 +20,10 @@ export default function Profile() {
 
   return (
     <div className="px-[3%] py-6">
-      <h1 className="text-[#f93c22] text-2xl sm:text-[34px] font-bold mb-6">Պրոֆիլ</h1>
+      <h1 className="text-[#f93c22] text-2xl sm:text-[34px] font-bold mb-6">Profile</h1>
 
       <div className="rounded-2xl py-6">
-        {/* Сообщение */}
+        {/* Message */}
         {message?.text && (
           <div
             className={`mb-4 text-center text-sm px-4 py-2 rounded-lg cursor-pointer ${
@@ -37,42 +37,42 @@ export default function Profile() {
           </div>
         )}
 
-        {/* Անուն */}
+        {/* First Name */}
         <div className="mb-5">
-          <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base">Անուն</label>
+          <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base">First Name</label>
           <input
             type="text"
             value={profile.first_name}
             onChange={(e) => updateField("first_name", e.target.value)}
-            placeholder="Անուն"
+            placeholder="First Name"
             className="w-full border-2 py-2 sm:py-3 border-gray-200 rounded-xl px-3 sm:px-4 focus:outline-none focus:border-[#f93c22] transition text-sm sm:text-base"
           />
         </div>
 
-        {/* Ազգանուն */}
+        {/* Last Name */}
         <div className="mb-5">
-          <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base">Ազգանուն</label>
+          <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base">Last Name</label>
           <input
             type="text"
             value={profile.last_name}
             onChange={(e) => updateField("last_name", e.target.value)}
-            placeholder="Ազգանուն"
+            placeholder="Last Name"
             className="w-full border-2 py-2 sm:py-3 border-gray-200 rounded-xl px-3 sm:px-4 focus:outline-none focus:border-[#f93c22] transition text-sm sm:text-base"
           />
         </div>
         
         <div className="mb-5">
-          <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base">Հեռախոսահամար</label>
+          <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base">Phone Number</label>
 
           <PhoneInput
-            country="am"
+            country="us"
             enableSearch
             value={profile.phone_number}
             onChange={(value) => updateField("phone_number", "+" + value)}
             inputClass="!w-full !border-2 !border-gray-200 !rounded-xl !py-2 sm:!py-3 !pr-3 sm:!pr-4 !text-sm sm:!text-base"
           />
 
-          {/* Мини-ошибка — мягкая */}
+          {/* Phone error message */}
           {message?.type === "phone-error" && (
             <div className="text-red-600 text-sm mt-1">{message.text}</div>
           )}
@@ -80,17 +80,17 @@ export default function Profile() {
 
 
 
-        {/* Ծննդյան ամսաթիվ */}
+        {/* Birth Date */}
         <div className="mb-6">
-          <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base">Ծննդյան ամսաթիվ</label>
+          <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base">Birth Date</label>
 
           <DatePicker
   selected={profile.birth_date}
   onChange={(date) => updateField("birth_date", date)}
-  placeholderText="Ընտրեք ամսաթիվը"
-  dateFormat="dd.MM.yyyy"
-  locale={hy}
-  maxDate={minAgeDate}   // 🔥 нельзя выбрать младше 12
+  placeholderText="Select date"
+  dateFormat="MM/dd/yyyy"
+  locale={enUS}
+  maxDate={minAgeDate}   // Cannot select younger than 12
   showYearDropdown
   scrollableYearDropdown
   yearDropdownItemNumber={100}
@@ -105,7 +105,7 @@ export default function Profile() {
           onClick={saveProfile}
           className="w-full sm:w-auto bg-[#f93c22] text-white font-bold px-4 sm:px-6 py-2 sm:py-3 rounded-[15px] shadow-md hover:bg-[#d8321b] transition mt-6 sm:mt-10 text-sm sm:text-base"
         >
-          Պահպանել փոփոխությունները
+          Save Changes
         </button>
       </div>
     </div>

@@ -4,8 +4,8 @@ import { accountArray } from "./accountArray";
 
 const getFilteredButtons = (isLoggedIn) =>
   accountArray.filter((item) => {
-    if (!isLoggedIn) return item.title === "Մուտք" || item.title === "Գրանցում";
-    return item.title !== "Մուտք" && item.title !== "Գրանցում";
+    if (!isLoggedIn) return item.title === "Login" || item.title === "Register";
+    return item.title !== "Login" && item.title !== "Register";
   });
 
 export const getLastButton = (isLoggedIn) => {

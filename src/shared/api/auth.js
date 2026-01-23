@@ -1,13 +1,14 @@
-import axios from "./axiosInstance";
+import axiosInstance from "./axiosInstance";
 import { refreshAccessToken } from "./refreshAccessToken";
+
+const API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
 
 // -------- REGISTER --------
 export async function register(email, first_name, last_name, password, password_confirm) {
   try {
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       "register/",
-      { email, first_name, last_name, password, password_confirm },
-      { withCredentials: true }
+      { email, first_name, last_name, password, password_confirm }
     );
     return res.data;
   } catch (err) {
@@ -18,10 +19,9 @@ export async function register(email, first_name, last_name, password, password_
 // -------- LOGIN --------
 export async function login(email, password) {
   try {
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       "login/",
-      { email, password },
-      { withCredentials: true }
+      { email, password }
     );
     return res.data;
   } catch (err) {
@@ -31,27 +31,23 @@ export async function login(email, password) {
 
 // -------- VERIFY EMAIL --------
 export async function verifyEmail(email, code, password) {
-  const res = await fetch("http://localhost:8000/api/accounts/verify-email/", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, code, password }),
-  });
-
-  if (!res.ok) {
-    const err = await res.json();
-    throw err;
+  try {
+    const res = await axiosInstance.post(
+      "verify-email/",
+      { email, code, password }
+    );
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || err;
   }
-  return res.json();
 }
-
 
 // -------- LOGOUT --------
 export async function logout(refresh) {
   try {
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       "logout/",
-      { refresh },
-      { withCredentials: true }
+      { refresh }
     );
     return res.data;
   } catch (err) {
@@ -62,20 +58,9 @@ export async function logout(refresh) {
 // -------- ADD ADDRESS --------
 export async function addAddress(address) {
   try {
-    let auth = JSON.parse(localStorage.getItem("auth") || "{}");
-
-    if (!auth.access) {
-      const tokens = await refreshAccessToken();
-      auth.access = tokens.access;
-    }
-
-    const res = await axios.post(
+    const res = await axiosInstance.post(
       "addresses/",
-      { address },
-      {
-        headers: { Authorization: `Bearer ${auth.access}` },
-        withCredentials: true,
-      }
+      { address }
     );
     return res.data;
   } catch (err) {
@@ -86,17 +71,7 @@ export async function addAddress(address) {
 // -------- GET ADDRESSES --------
 export async function getAddresses() {
   try {
-    let auth = JSON.parse(localStorage.getItem("auth") || "{}");
-
-    if (!auth.access) {
-      const tokens = await refreshAccessToken();
-      auth.access = tokens.access;
-    }
-
-    const res = await axios.get("addresses/", {
-      headers: { Authorization: `Bearer ${auth.access}` },
-      withCredentials: true,
-    });
+    const res = await axiosInstance.get("addresses/");
     return res.data;
   } catch (err) {
     throw err.response?.data || err;
@@ -106,18 +81,7 @@ export async function getAddresses() {
 // -------- DELETE ADDRESS --------
 export async function deleteAddress(id) {
   try {
-    let auth = JSON.parse(localStorage.getItem("auth") || "{}");
-
-    if (!auth.access) {
-      const tokens = await refreshAccessToken();
-      auth.access = tokens.access;
-    }
-
-    const res = await axios.delete(`addresses/${id}/`, {
-      headers: { Authorization: `Bearer ${auth.access}` },
-      withCredentials: true,
-    });
-
+    const res = await axiosInstance.delete(`addresses/${id}/`);
     return res.data;
   } catch (err) {
     throw err.response?.data || err;
@@ -127,16 +91,7 @@ export async function deleteAddress(id) {
 // -------- GET MEALS --------
 export async function getMeals() {
   try {
-    let auth = JSON.parse(localStorage.getItem("auth") || "{}");
-    if (!auth.access) {
-      const tokens = await refreshAccessToken();
-      auth.access = tokens.access;
-    }
-
-    const res = await axios.get("meals/", {
-      headers: { Authorization: `Bearer ${auth.access}` },
-      withCredentials: true,
-    });
+    const res = await axiosInstance.get("meals/");
     return res.data;
   } catch (err) {
     throw err.response?.data || err;
@@ -146,19 +101,29 @@ export async function getMeals() {
 // -------- GET FAVORITES --------
 export async function getFavorites() {
   try {
+    // Favorites endpoint is under /api/favorites/, not /api/accounts/favorites/
+    const API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
     let auth = JSON.parse(localStorage.getItem("auth") || "{}");
     if (!auth.access) {
       const tokens = await refreshAccessToken();
       auth.access = tokens.access;
     }
 
-    const res = await axios.get("favorites/", {
-      headers: { Authorization: `Bearer ${auth.access}` },
-      withCredentials: true,
+    const res = await fetch(`${API_BASE}/api/favorites/`, {
+      headers: {
+        Authorization: `Bearer ${auth.access}`,
+        "Content-Type": "application/json"
+      },
+      credentials: "include",
     });
-    return res.data;
+    
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    
+    return await res.json();
   } catch (err) {
-    throw err.response?.data || err;
+    throw err;
   }
 }
 
@@ -171,16 +136,25 @@ export async function toggleFavorite(mealId) {
       auth.access = tokens.access;
     }
 
-    const res = await axios.post(
-      `toggle-favorite/${mealId}/`,
-      {},
+    const API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
+    const res = await fetch(
+      `${API_BASE}/api/toggle-favorite/${mealId}/`,
       {
-        headers: { Authorization: `Bearer ${auth.access}` },
-        withCredentials: true,
+        method: "POST",
+        headers: { 
+          Authorization: `Bearer ${auth.access}`,
+          "Content-Type": "application/json"
+        },
+        credentials: "include",
       }
     );
-    return res.data;
+    
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    
+    return await res.json();
   } catch (err) {
-    throw err.response?.data || err;
+    throw err;
   }
 }

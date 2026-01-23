@@ -1,70 +1,99 @@
 import React from "react";
-
-const gallery = [
-  { src: "/1.jpg", href: "https://www.instagram.com/p/AAA111", title: "Sushi Duo" },
-  { src: "/1.jpg", href: "https://www.instagram.com/p/BBB222", title: "Sushi Duo" },
-  { src: "/1.jpg", href: "https://www.instagram.com/p/CCC333", title: "Sushi Duo" },
-  { src: "/1.jpg", href: "https://www.instagram.com/p/DDD444", title: "Sushi Duo" },
-  { src: "/1.jpg", href: "https://www.instagram.com/p/EEE555", title: "Sushi Duo" }
-];
+import OurInstagram from "../../components/OurInstagram/OurInstagram";
+import { useContactPageContent } from "../../../hooks/useContent";
 
 export default function Contact() {
+  const { content, loading } = useContactPageContent();
+  
+  if (loading) {
+    return (
+      <div className="container-default w-container pt-24 pb-16 md:pt-32 md:pb-24">
+        <div className="text-center">Loading...</div>
+      </div>
+    );
+  }
+  
   return (
-    <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-      <div className="flex flex-col gap-14 sm:gap-20">
-        <div className="w-full max-w-[760px] mx-auto">
-          <img
-            src="/1.jpg"
-            alt="Featured sushi"
-            className="w-full h-full object-cover rounded-lg shadow-sm"
-          />
-        </div>
-
-        <div className="flex flex-col gap-8 sm:gap-12">
-          <div className="flex justify-center px-2 text-center">
-            <p className="text-[34px] sm:text-[48px] md:text-[60px] font-bold text-black font-serif">
-              Our Instagram
-            </p>
+    <>
+      <div className="container-default w-container pt-24 pb-16 md:pt-32 md:pb-24">
+        <div className=" title-and-slide mb-12">
+          <div>
+            <h2 className="display-2  w-full text-4xl md:text-5xl lg:text-6xl font-bold text-black font-serif">
+              {content?.page_title || "Visit our restaurants"}
+            </h2>
           </div>
-
-          <div className="relative">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 grid-rows-2 gap-4 sm:gap-6">
-              {gallery.map((item, idx) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${idx === 0 ? "md:row-span-2" : ""} group block overflow-hidden rounded-lg shadow-sm`}
-                  title={item.title}
-                >
-                  <div className="relative w-full h-full">
-                    <img
-                      src={item.src}
-                      alt={item.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-black/45 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-12 w-12 text-white"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth="1.6"
-                      >
-                        <rect x="3" y="3" width="18" height="18" rx="5" />
-                        <circle cx="12" cy="12" r="4.2" />
-                        <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none" />
-                      </svg>
+        </div>
+        
+        {content && (
+          <div className="mt-12 md:mt-16">
+            <div className="z-index-1">
+              <div className="card-right-over-image-wrapper relative">
+                <div className="image-wrapper location-image-left w-[60%]">
+                  <img
+                    src={content.location_image_data?.url || content.location_image_url || ""}
+                    loading="eager"
+                    alt={content.location_name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.src = "/nkar1.jpg";
+                    }}
+                  />
+                </div>
+                
+                <div className="card location-card-right-over-image relative md:absolute top-auto md:top-[10%] right-0 md:right-[10%] bg-white p-6 md:p-12 shadow-lg w-[50%] md:max-w-[90%] -mt-8 md:mt-8 md:translate-y-8 z-10">
+                  <div className="inner-container">
+                    <div className="inner-container mb-6">
+                      <h3 className="display-3 text-2xl md:text-3xl font-bold text-black font-serif mb-4">
+                        {content.location_name}
+                      </h3>
+                      <div className="mg-top-small">
+                        <p className="text-gray-600 text-base leading-relaxed">
+                          {content.location_description}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="mg-top-medium mt-6">
+                      <div className="inner-container _275px">
+                        <div className="w-layout-grid grid-1-column gap-row-24px flex flex-col gap-6">
+                          <a
+                            href={content.location_map_link || "#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="contact-icon-link inline-flex items-start gap-3 text-gray-700 hover:text-red-600 transition-colors"
+                          >
+                            <div className="line-square-icon link-icon-left _20px text-xl flex-shrink-0 mt-1">📍</div>
+                            <div>{content.location_address}</div>
+                          </a>
+                          
+                          <a
+                            href={`mailto:${content.location_email}`}
+                            className="contact-icon-link inline-flex items-start gap-3 text-gray-700 hover:text-red-600 transition-colors break-all"
+                          >
+                            <div className="line-square-icon link-icon-left _20px text-xl flex-shrink-0 mt-1">✉</div>
+                            <div className="text-break-all break-all">
+                              {content.location_email}
+                            </div>
+                          </a>
+                          
+                          <a
+                            href={`tel:${content.location_phone}`}
+                            className="contact-icon-link inline-flex items-start gap-3 text-gray-700 hover:text-red-600 transition-colors"
+                          >
+                            <div className="line-square-icon link-icon-left _20px text-xl flex-shrink-0 mt-1">📞</div>
+                            <div>{content.location_phone}</div>
+                          </a>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </a>
-              ))}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
-    </div>
+      <OurInstagram />
+    </>
   );
 }

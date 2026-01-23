@@ -42,7 +42,7 @@ export default function Register() {
 
       setConfirmOpen(true); // открываем окно подтверждения
     } catch (err) {
-      setError(err?.error || "Գրանցման սխալ");
+      setError(err?.error || "Registration error");
     } finally {
       setLoading(false);
     }
@@ -54,7 +54,7 @@ export default function Register() {
         className="rounded-2xl p-8 w-full max-w-md space-y-5"
         onSubmit={(e) => e.preventDefault()}
       >
-        <h2 className="text-[#f93c22] text-2xl sm:text-3xl font-bold text-center mb-4">Գրանցում</h2>
+        <h2 className="text-[#f93c22] text-2xl sm:text-3xl font-bold text-center mb-4">Register</h2>
 
         {error && (
           <div className="bg-red-100 text-red-700 px-4 py-2 rounded-lg text-center">
@@ -65,7 +65,7 @@ export default function Register() {
         <input
           name="email"
           type="email"
-          placeholder="Էլ․ հասցե"
+          placeholder="Email"
           value={form.email}
           onChange={handleChange}
           required
@@ -74,7 +74,7 @@ export default function Register() {
         <input
           name="first_name"
           type="text"
-          placeholder="Անուն"
+          placeholder="First Name"
           value={form.first_name}
           onChange={handleChange}
           required
@@ -83,7 +83,7 @@ export default function Register() {
         <input
           name="last_name"
           type="text"
-          placeholder="Ազգանուն"
+          placeholder="Last Name"
           value={form.last_name}
           onChange={handleChange}
           required
@@ -92,7 +92,7 @@ export default function Register() {
         <input
           name="password"
           type="password"
-          placeholder="Գաղտնաբառ"
+          placeholder="Password"
           value={form.password}
           onChange={handleChange}
           required
@@ -101,7 +101,7 @@ export default function Register() {
         <input
           name="password_confirm"
           type="password"
-          placeholder="Կրկնեք գաղտնաբառը"
+          placeholder="Confirm Password"
           value={form.password_confirm}
           onChange={handleChange}
           required
@@ -118,7 +118,7 @@ export default function Register() {
               : "bg-gradient-to-r from-[#f93c22] to-[#ff724f] hover:from-[#e2331d] hover:to-[#ff5c3a]"
           }`}
         >
-          {loading ? "Գրանցվում..." : "Գրանցվել"}
+          {loading ? "Registering..." : "Sign Up"}
         </button>
 
         <Confirm
