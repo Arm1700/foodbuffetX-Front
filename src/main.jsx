@@ -1,23 +1,24 @@
-import { createRoot } from "react-dom/client";
-import "./index.css";
-import App from "./App.jsx";
 import React from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App.jsx";
+import "./index.css";
+import "./style.css";
 import { BrowserRouter } from "react-router-dom";
-import { DataProvider } from "./context/DataProvider.jsx";
-import MealDataProvider from "./context/MealDataProvider.jsx"; 
+import { MealDataProvider } from "./context/MealDataProvider";
 import { AuthProvider } from "./context/AuthContext";
 import { ProfileProvider } from "./context/ProfileContext.jsx";
+import { CartProvider } from "./context/CartContext";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <AuthProvider>
-      <DataProvider>
-        <ProfileProvider>
-          <MealDataProvider>
+      <ProfileProvider>
+        <MealDataProvider>
+          <CartProvider>
             <App />
-          </MealDataProvider>
-        </ProfileProvider>
-      </DataProvider>
+          </CartProvider>
+        </MealDataProvider>
+      </ProfileProvider>
     </AuthProvider>
   </BrowserRouter>
 );

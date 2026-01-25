@@ -1,8 +1,10 @@
 import axios from "axios";
 import { refreshAccessToken } from "./refreshAccessToken";
 
+const API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
+
 const instance = axios.create({
-  baseURL: "http://localhost:8000/api/accounts/",
+  baseURL: `${API_BASE}/api/accounts/`,
   withCredentials: true,
 });
 

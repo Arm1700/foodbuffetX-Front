@@ -10,19 +10,36 @@ function Account() {
   const isLoggedIn = !!user;
 
   const defaultPageForLoggedIn = accountArray.find(
-    (item) => item.title === "📊 Ակնարկում"
+    (item) => item.title === "📊 Overview"
+  )?.id || 3;
+
+  const defaultPageForNotLoggedIn = accountArray.find(
+    (item) => item.title === "Login"
   )?.id || 1;
 
-  const [activePage, setActivePage] = useState(1);
+  const [activePage, setActivePage] = useState(() => {
+    // Check if user is logged in on initial load
+    const authData = localStorage.getItem("auth");
+    const hasUser = authData ? JSON.parse(authData).user : null;
+    return hasUser ? defaultPageForLoggedIn : defaultPageForNotLoggedIn;
+  });
 
   useEffect(() => {
-    if (isLoggedIn) setActivePage(defaultPageForLoggedIn);
+    if (isLoggedIn) {
+      // If logged in, switch to Overview (not Login/Register)
+      setActivePage(defaultPageForLoggedIn);
+    } else {
+      // If not logged in, switch to Login
+      setActivePage(defaultPageForNotLoggedIn);
+    }
   }, [isLoggedIn]);
 
   const handleClick = (item) => {
     if (item.link === "/logout") {
-      clearAuth();          
-      setActivePage(1);   
+      clearAuth();
+      // After logout, switch to Login page
+      const loginPage = accountArray.find((i) => i.title === "Login")?.id || 1;
+      setActivePage(loginPage);
       return;
     }
     setActivePage(item.id);
@@ -39,10 +56,10 @@ function Account() {
         {/* Header */}
         <div className=" w-full h-[120px] sm:h-[140px] lg:h-[150px] rounded-t-[17px] flex items-center justify-center flex-col gap-1 bg-gradient-to-r from-black via-[#1a1a1a] to-[#1b1b1b] " >
           <h1 className="text-[#f93c22] text-[24px] sm:text-[30px] lg:text-[36px] font-bold">
-            Իմ պրոֆիլը
+            My Profile
           </h1>
           <p className="text-[#F5F5F5] text-sm sm:text-base">
-            Կառավարեք ձեր պրոֆիլը և պատվերները
+            Manage your profile and orders
           </p>
         </div>
 

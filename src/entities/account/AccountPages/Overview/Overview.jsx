@@ -20,7 +20,7 @@ export default function Overview() {
   return (
     <div className="px-[3%] py-6">
       <h1 className="text-[#f93c22] text-2xl sm:text-[34px] font-bold mb-6">
-        Էջի ակնարկում
+        Overview
       </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -28,17 +28,17 @@ export default function Overview() {
         <div className="flex flex-col justify-center items-center bg-gradient-to-r from-[#f93c22] to-[#FF724F] h-32 sm:h-40 rounded-2xl shadow-lg text-white p-4 sm:p-6 transform transition hover:-translate-y-1 hover:shadow-xl">
           <div className="text-3xl sm:text-4xl font-bold">{totalOrders}</div>
           <div className="opacity-90 mt-2 font-bold text-sm sm:text-base">
-            Պատվերների քանակը
+            Total Orders
           </div>
         </div>
 
         {/* Spent */}
         <div className="flex flex-col justify-center items-center bg-gradient-to-r from-[#f93c22] to-[#FF724F] h-32 sm:h-40 rounded-2xl shadow-lg text-white p-4 sm:p-6 transform transition hover:-translate-y-1 hover:shadow-xl">
           <div className="text-3xl sm:text-4xl font-bold">
-            ₽{totalSpent.toLocaleString()}
+            ${totalSpent.toLocaleString()}
           </div>
           <div className="opacity-90 mt-2 font-bold text-sm sm:text-base">
-            Ծախսված
+            Total Spent
           </div>
         </div>
 
@@ -46,18 +46,18 @@ export default function Overview() {
         <div className="flex flex-col justify-center items-center bg-gradient-to-r from-[#f93c22] to-[#FF724F] h-32 sm:h-40 rounded-2xl shadow-lg text-white p-4 sm:p-6 transform transition hover:-translate-y-1 hover:shadow-xl">
           <div className="text-3xl sm:text-4xl font-bold">{favoritesCount}</div>
           <div className="opacity-90 mt-2 font-bold text-sm sm:text-base">
-            Սիրելի ուտեստներ
+            Favorite Meals
           </div>
         </div>
       </div>
 
-      {/* Վերջին պատվերներ */}
+      {/* Recent Orders */}
       <h2 className="mt-[3%] text-xl sm:text-2xl font-bold mb-4">
-        Վերջին պատվերները
+        Recent Orders
       </h2>
       <div className="space-y-4">
         {recentOrders.length === 0 && (
-          <p className="text-gray-500">Դուք դեռ պատվեր չունեք։</p>
+          <p className="text-gray-500">You don't have any orders yet.</p>
         )}
         {recentOrders.map((order) => (
           <div
@@ -65,11 +65,11 @@ export default function Overview() {
             className="bg-white border rounded-xl shadow p-4 sm:p-5 hover:shadow-lg transition"
           >
             <div className="flex items-center justify-between mb-2">
-              <span className="font-semibold text-[#f93c22]">{order.id}</span>
+              <span className="font-semibold text-[#f93c22]">Order #{order.id}</span>
             </div>
             <div className="text-gray-600 text-sm sm:text-base">{order.items}</div>
             <div className="font-bold text-gray-800 mt-2 text-sm sm:text-base">
-              ₽{order.total.toLocaleString()}
+              ${order.total.toLocaleString()}
             </div>
           </div>
         ))}

@@ -1,4 +1,5 @@
-import React, { createContext, useReducer, useEffect } from "react";
+/* eslint-disable react-refresh/only-export-components */
+import React, { createContext, useReducer } from "react";
 import axios from "axios";
 
 export const DataContext = createContext();

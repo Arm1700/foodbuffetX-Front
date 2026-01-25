@@ -1,8 +1,10 @@
 import axios from "axios";
 import { refreshAccessToken } from "./refreshAccessToken";
 
+const API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
+
 const api = axios.create({
-  baseURL: "http://localhost:8000/api/",
+  baseURL: `${API_BASE}/api/`,
   withCredentials: true,
 });
 
@@ -49,7 +51,12 @@ api.interceptors.response.use(
       } catch (err) {
         processQueue(err, null);
         isRefreshing = false;
-        localStorage.removeItem("auth");
+        // Only clear auth if refresh token is invalid
+        if (err.response?.status === 401 || err.response?.status === 403) {
+          localStorage.removeItem("auth");
+          localStorage.removeItem("access");
+          localStorage.removeItem("refresh");
+        }
         return Promise.reject(err);
       }
     }
