@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 /* eslint-disable react-refresh/only-export-components */
->>>>>>> 18a1d41fb3734e321b81eee286f03ffc46dcd7b5
 import React, { createContext, useContext, useState, useEffect } from "react";
 import api from "../shared/api/api";
 
@@ -18,18 +15,15 @@ export function AuthProvider({ children }) {
     return data ? JSON.parse(data).user : null;
   });
 
-  const [accessToken, setAccessToken] = useState(() => {
-    return localStorage.getItem("access") || null;
-  });
+  const [accessToken, setAccessToken] = useState(
+    () => localStorage.getItem("access") || null
+  );
 
-  const [refreshToken, setRefreshToken] = useState(() => {
-    return localStorage.getItem("refresh") || null;
-  });
+  const [refreshToken, setRefreshToken] = useState(
+    () => localStorage.getItem("refresh") || null
+  );
 
-<<<<<<< HEAD
-=======
   // --- APPLY ACCESS TOKEN TO API ---
->>>>>>> 18a1d41fb3734e321b81eee286f03ffc46dcd7b5
   useEffect(() => {
     if (accessToken) {
       api.defaults.headers.Authorization = `Bearer ${accessToken}`;
@@ -38,10 +32,7 @@ export function AuthProvider({ children }) {
     }
   }, [accessToken]);
 
-<<<<<<< HEAD
-=======
   // --- SAVE AUTH ---
->>>>>>> 18a1d41fb3734e321b81eee286f03ffc46dcd7b5
   const saveAuth = (data) => {
     setUser(data.user);
     setAccessToken(data.access);
@@ -54,65 +45,6 @@ export function AuthProvider({ children }) {
 
   // --- CLEAR AUTH ---
   const clearAuth = () => {
-<<<<<<< HEAD
-    console.warn("⚠️ Сессия завершена — выполняется выход");
-    setUser(null);
-    setAccessToken(null);
-    setRefreshToken(null);
-    localStorage.removeItem("auth");
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
-    delete api.defaults.headers.Authorization;
-  };
-
-  useEffect(() => {
-    if (!refreshToken) return;
-
-    let isRefreshing = false;
-
-    const refreshAccessToken = async () => {
-      if (isRefreshing) return;
-      isRefreshing = true;
-
-      try {
-        if (document.visibilityState === "hidden") return;
-
-        const res = await api.post("accounts/token/refresh/", { refresh: refreshToken });
-        const newAccess = res.data.access;
-
-        setAccessToken(newAccess);
-        localStorage.setItem("access", newAccess);
-        api.defaults.headers.Authorization = `Bearer ${newAccess}`;
-        console.log("✅ Access токен успешно обновлён");
-      } catch (err) {
-        console.error("❌ Ошибка при обновлении токена:", err);
-
-        const status = err.response?.status;
-
-        if (status === 401 || status === 403) {
-          clearAuth();
-        } else if (!status) {
-          console.warn("⚠️ Нет соединения с сервером — токен не обновлён");
-        }
-      } finally {
-        isRefreshing = false;
-      }
-    };
-
-    refreshAccessToken();
-
-    const interval = setInterval(refreshAccessToken, 3600000);
-
-    return () => clearInterval(interval);
-  }, [refreshToken]);
-
-  return (
-    <AuthContext.Provider value={{ user, accessToken, saveAuth, clearAuth }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
-=======
     try {
       localStorage.removeItem("auth");
       localStorage.removeItem("access");
@@ -132,98 +64,61 @@ export function AuthProvider({ children }) {
   // --- AUTO REFRESH TOKEN ---
   useEffect(() => {
     if (!refreshToken) return;
->>>>>>> 18a1d41fb3734e321b81eee286f03ffc46dcd7b5
 
     let isRefreshing = false;
     let intervalId = null;
-    let timeoutId = null;
 
     const refreshAccessToken = async () => {
       if (isRefreshing) return;
       isRefreshing = true;
 
       try {
-        if (document.visibilityState === "hidden") {
-          isRefreshing = false;
-          return;
-        }
+        if (document.visibilityState === "hidden") return;
 
-        const API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
+        const API_BASE =
+          import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
+
         const res = await fetch(`${API_BASE}/api/accounts/refresh/`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify({ refresh: refreshToken }),
         });
 
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
+        if (!res.ok) throw new Error(res.status);
 
         const data = await res.json();
         const newAccess = data.access;
 
-        // Update all token storage locations
         setAccessToken(newAccess);
         localStorage.setItem("access", newAccess);
-        
-        // Update auth object in localStorage
+
         const authData = JSON.parse(localStorage.getItem("auth") || "{}");
         authData.access = newAccess;
-        if (data.refresh) {
-          authData.refresh = data.refresh;
-          localStorage.setItem("refresh", data.refresh);
-        }
         localStorage.setItem("auth", JSON.stringify(authData));
-        
-        // Update API default headers
-        if (api && api.defaults) {
-          api.defaults.headers.Authorization = `Bearer ${newAccess}`;
-        }
 
-        console.log("✅ Access token successfully refreshed");
+        api.defaults.headers.Authorization = `Bearer ${newAccess}`;
+        console.log("✅ Access token refreshed");
       } catch (err) {
-        console.error("❌ Token refresh error:", err);
-        const status = err.status || err.response?.status;
-
-        // Only clear auth if it's a real auth error, not a network error
-        if (status === 401 || status === 403) {
-          console.warn("⚠️ Refresh token expired, logging out");
-          clearAuth();
-        } else if (!status) {
-          console.warn("⚠️ No connection to server, will retry later");
-        }
+        const status = err?.message;
+        if (status === "401" || status === "403") clearAuth();
+        else console.warn("⚠️ Token refresh skipped");
       } finally {
         isRefreshing = false;
       }
     };
 
-    // Refresh immediately on mount
     refreshAccessToken();
-
-    // Refresh every 3.5 minutes (before 5 minute expiry, with safety margin)
     intervalId = setInterval(refreshAccessToken, 3.5 * 60 * 1000);
 
-    // Also refresh when tab becomes visible
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible" && refreshToken && !isRefreshing) {
-        refreshAccessToken();
-      }
-    };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    return () => {
-      if (intervalId) clearInterval(intervalId);
-      if (timeoutId) clearTimeout(timeoutId);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
+    return () => clearInterval(intervalId);
   }, [refreshToken]);
 
-  const value = { user, accessToken, saveAuth, clearAuth };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, accessToken, saveAuth, clearAuth }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
