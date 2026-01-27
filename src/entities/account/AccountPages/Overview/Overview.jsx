@@ -1,79 +1,125 @@
 import { useContext } from "react";
-import { useProfile } from "../../../../context/ProfileContext";
 import { MealDataContext } from "../../../../context/MealDataProvider";
+import { useOrders } from "../../../../context/OrdersContext";
 
 export default function Overview() {
-  const { profile } = useProfile();
   const { meals } = useContext(MealDataContext);
+  const { orders, loading, error } = useOrders();
 
-  // Favorite meals count
-  const favoritesCount = meals.filter(meal => meal.is_favorited).length;
+  if (loading) return <div className="p-6">Loading orders...</div>;
+  if (error) return <div className="p-6 text-red-500">Error loading orders</div>;
 
-  // Orders count and total spent
-  const orders = profile?.orders || []; 
+  const API_BASE = "http://127.0.0.1:8000"; // База твоего бэкенда
+  const favoritesCount = meals.filter((meal) => meal.is_favorited).length;
   const totalOrders = orders.length;
-  const totalSpent = orders.reduce((sum, order) => sum + order.total, 0);
+  const totalSpent = orders.reduce((sum, order) => sum + Number(order.total || 0), 0);
 
-  // last 3 orders
-  const recentOrders = orders.slice(-3).reverse();
+  const recentOrders = [...orders]
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    .slice(0, 10);
 
   return (
-    <div className="px-[3%] py-6">
+    <div className="px-[3%] py-6 w-full max-w-full">
       <h1 className="text-[#f93c22] text-2xl sm:text-[34px] font-bold mb-6">
         Overview
       </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {/* Orders */}
-        <div className="flex flex-col justify-center items-center bg-gradient-to-r from-[#f93c22] to-[#FF724F] h-32 sm:h-40 rounded-2xl shadow-lg text-white p-4 sm:p-6 transform transition hover:-translate-y-1 hover:shadow-xl">
-          <div className="text-3xl sm:text-4xl font-bold">{totalOrders}</div>
-          <div className="opacity-90 mt-2 font-bold text-sm sm:text-base">
-            Total Orders
-          </div>
-        </div>
-
-        {/* Spent */}
-        <div className="flex flex-col justify-center items-center bg-gradient-to-r from-[#f93c22] to-[#FF724F] h-32 sm:h-40 rounded-2xl shadow-lg text-white p-4 sm:p-6 transform transition hover:-translate-y-1 hover:shadow-xl">
-          <div className="text-3xl sm:text-4xl font-bold">
-            ${totalSpent.toLocaleString()}
-          </div>
-          <div className="opacity-90 mt-2 font-bold text-sm sm:text-base">
-            Total Spent
-          </div>
-        </div>
-
-        {/* Favorites */}
-        <div className="flex flex-col justify-center items-center bg-gradient-to-r from-[#f93c22] to-[#FF724F] h-32 sm:h-40 rounded-2xl shadow-lg text-white p-4 sm:p-6 transform transition hover:-translate-y-1 hover:shadow-xl">
-          <div className="text-3xl sm:text-4xl font-bold">{favoritesCount}</div>
-          <div className="opacity-90 mt-2 font-bold text-sm sm:text-base">
-            Favorite Meals
-          </div>
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-8">
+        <StatCard title="Total Orders" value={totalOrders} />
+        <StatCard title="Total Spent" value={`$${totalSpent.toLocaleString()}`} />
+        <StatCard title="Favorite Meals" value={favoritesCount} />
       </div>
 
-      {/* Recent Orders */}
-      <h2 className="mt-[3%] text-xl sm:text-2xl font-bold mb-4">
-        Recent Orders
-      </h2>
-      <div className="space-y-4">
-        {recentOrders.length === 0 && (
-          <p className="text-gray-500">You don't have any orders yet.</p>
-        )}
-        {recentOrders.map((order) => (
+      <div className="block">
+        <h2 className="text-xl font-bold mb-4 text-gray-800">
+          Recent Orders
+        </h2>
+
+        <div className="relative w-full max-h-[350px] border border-gray-100 rounded-2xl bg-gray-50/50 p-2 overflow-hidden flex flex-col">
           <div
-            key={order.id}
-            className="bg-white border rounded-xl shadow p-4 sm:p-5 hover:shadow-lg transition"
+            className="overflow-y-auto pr-2 space-y-3 touch-pan-y
+            [&::-webkit-scrollbar]:w-1.5
+            [&::-webkit-scrollbar-track]:bg-transparent
+            [&::-webkit-scrollbar-thumb]:bg-gray-300
+            [&::-webkit-scrollbar-thumb]:rounded-full
+            hover:[&::-webkit-scrollbar-thumb]:bg-orange-400"
+            style={{ maxHeight: '330px' }} 
           >
-            <div className="flex items-center justify-between mb-2">
-              <span className="font-semibold text-[#f93c22]">Order #{order.id}</span>
-            </div>
-            <div className="text-gray-600 text-sm sm:text-base">{order.items}</div>
-            <div className="font-bold text-gray-800 mt-2 text-sm sm:text-base">
-              ${order.total.toLocaleString()}
-            </div>
+            {recentOrders.length === 0 ? (
+              <div className="flex py-10 items-center justify-center opacity-60">
+                <p className="text-gray-500 text-sm">No orders yet</p>
+              </div>
+            ) : (
+              recentOrders.map((order) => (
+                <div
+                  key={order.id}
+                  className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden"
+                >
+                  <div className="flex items-center justify-between px-3 py-2 bg-gray-50/50">
+                    <span className="text-[10px] font-bold text-gray-600">#{order.id}</span>
+                    <span className="text-[10px] text-gray-400">
+                      {new Date(order.created_at).toLocaleDateString()}
+                    </span>
+                  </div>
+
+                  <div className="px-3 py-2 space-y-2">
+                    {order.items.map((item) => {
+                      // ЛОГИКА КАРТИНКИ КАК В MENU
+                      const rawPath = item.img || item.image || "";
+                      let imageUrl = "/nkar1.jpg"; // Заглушка
+
+                      if (rawPath) {
+                        if (rawPath.startsWith('http')) {
+                          imageUrl = rawPath;
+                        } else {
+                          const cleanPath = rawPath.startsWith('/') ? rawPath.substring(1) : rawPath;
+                          imageUrl = `${API_BASE}/${cleanPath}`;
+                        }
+                      }
+
+                      return (
+                        <div key={item.id} className="flex items-center justify-between gap-3">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <img
+                              src={imageUrl}
+                              alt={item.name}
+                              className="w-18 h-18 object-cover rounded-md flex-shrink-0"
+                              onError={(e) => {
+                                e.currentTarget.src = "/nkar1.jpg";
+                              }}
+                            />
+                            <p className="text-[11px] font-semibold text-gray-700 truncate">
+                              {item.quantity}x {item.name}
+                            </p>
+                          </div>
+                          <div className="text-[11px] font-bold text-gray-600">
+                            ${(Number(item.price) * item.quantity).toLocaleString()}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="px-3 py-1.5 bg-gray-50/30 border-t border-gray-50 flex justify-between">
+                    <span className="text-[10px] text-gray-400">Total</span>
+                    <span className="text-xs font-bold text-gray-900">${Number(order.total).toLocaleString()}</span>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
-        ))}
+          <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-gray-50 to-transparent pointer-events-none" />
+        </div>
       </div>
+    </div>
+  );
+}
+
+function StatCard({ title, value }) {
+  return (
+    <div className="flex flex-col justify-center items-center bg-gradient-to-r from-[#f93c22] to-[#FF724F] h-28 rounded-2xl shadow-md text-white p-4">
+      <div className="text-2xl font-bold">{value}</div>
+      <div className="opacity-90 mt-1 font-bold text-[10px] uppercase tracking-wider">{title}</div>
     </div>
   );
 }

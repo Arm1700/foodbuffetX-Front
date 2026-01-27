@@ -8,16 +8,19 @@ import { MealDataProvider } from "./context/MealDataProvider";
 import { AuthProvider } from "./context/AuthContext";
 import { ProfileProvider } from "./context/ProfileContext.jsx";
 import { CartProvider } from "./context/CartContext";
+import { OrdersProvider } from "./context/OrdersContext";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <AuthProvider>
       <ProfileProvider>
-        <MealDataProvider>
-          <CartProvider>
-            <App />
-          </CartProvider>
-        </MealDataProvider>
+        <OrdersProvider>
+          <MealDataProvider>
+            <CartProvider>
+              <App />
+            </CartProvider>
+          </MealDataProvider>
+        </OrdersProvider>
       </ProfileProvider>
     </AuthProvider>
   </BrowserRouter>

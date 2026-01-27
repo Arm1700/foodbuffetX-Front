@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../../context/CartContext";
+import api from "../../../shared/api/api";
 
 export default function Cart({ isOpen, onClose }) {
-  const { cartItems, removeFromCart, updateQuantity, getTotalPrice } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, getTotalPrice, clearCart } = useCart();
   const navigate = useNavigate();
 
   if (!isOpen) return null;
@@ -14,6 +15,24 @@ export default function Cart({ isOpen, onClose }) {
   const handleBrowseMenu = () => {
     onClose();
     navigate("/Menu");
+  };
+
+
+  const handleCheckout = async () => {
+    try {
+      await api.post("/checkout/", {
+        items: cartItems.map(item => ({
+          product_id: item.id,
+          quantity: item.quantity
+        }))
+      });
+
+      clearCart();
+      onClose();
+      navigate("/Account");
+    } catch (err) {
+      alert("Checkout failed");
+    }
   };
 
   return (
@@ -116,7 +135,7 @@ export default function Cart({ isOpen, onClose }) {
           {cartItems.length > 0 && (
             <div className="border-t px-6 py-4">
               <button
-                onClick={() => alert("Checkout functionality coming soon!")}
+                onClick={handleCheckout}
                 className="w-full bg-[#f93c22] text-white py-4 rounded-lg font-semibold hover:bg-[#e2331d] transition-colors text-lg"
               >
                 CONTINUE TO CHECKOUT
