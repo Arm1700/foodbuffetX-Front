@@ -9,7 +9,7 @@ export default function Overview() {
   if (loading) return <div className="p-6">Loading orders...</div>;
   if (error) return <div className="p-6 text-red-500">Error loading orders</div>;
 
-  const API_BASE = "http://127.0.0.1:8000"; // База твоего бэкенда
+  const API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
   const favoritesCount = meals.filter((meal) => meal.is_favorited).length;
   const totalOrders = orders.length;
   const totalSpent = orders.reduce((sum, order) => sum + Number(order.total || 0), 0);
@@ -17,6 +17,13 @@ export default function Overview() {
   const recentOrders = [...orders]
     .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
     .slice(0, 10);
+
+  const buildImageUrl = (rawPath) => {
+    if (!rawPath) return "/nkar1.jpg";
+    if (rawPath.startsWith("http")) return rawPath;
+    if (rawPath.startsWith("/")) return `${API_BASE}${rawPath}`;
+    return `${API_BASE}/${rawPath}`;
+  };
 
   return (
     <div className="px-[3%] py-6 w-full max-w-full">
@@ -64,36 +71,36 @@ export default function Overview() {
 
                   <div className="px-3 py-2 space-y-2">
                     {order.items.map((item) => {
-                      // ЛОГИКА КАРТИНКИ КАК В MENU
                       const rawPath = item.img || item.image || "";
-                      let imageUrl = "/nkar1.jpg"; // Заглушка
-
-                      if (rawPath) {
-                        if (rawPath.startsWith('http')) {
-                          imageUrl = rawPath;
-                        } else {
-                          const cleanPath = rawPath.startsWith('/') ? rawPath.substring(1) : rawPath;
-                          imageUrl = `${API_BASE}/${cleanPath}`;
-                        }
-                      }
+                      const imageUrl = buildImageUrl(rawPath);
+                      const qty = Number(item.quantity ?? 0);
+                      const name = item.name || "Item";
+                      const lineTotal = Number(item.price ?? 0) * (Number.isFinite(qty) ? qty : 0);
 
                       return (
                         <div key={item.id} className="flex items-center justify-between gap-3">
                           <div className="flex items-center gap-3 min-w-0">
                             <img
                               src={imageUrl}
-                              alt={item.name}
-                              className="w-18 h-18 object-cover rounded-md flex-shrink-0"
+                              alt={name}
+                              className="w-16 h-16 object-cover rounded-md flex-shrink-0"
                               onError={(e) => {
                                 e.currentTarget.src = "/nkar1.jpg";
                               }}
                             />
-                            <p className="text-[11px] font-semibold text-gray-700 truncate">
-                              {item.quantity}x {item.name}
-                            </p>
+                            <div className="min-w-0">
+                              <p className="text-[11px] font-semibold text-gray-800 truncate">
+                                {name}
+                              </p>
+                              <div className="mt-0.5">
+                                <span className="inline-flex items-center rounded-full bg-orange-50 px-2 py-0.5 text-[10px] font-bold text-orange-700">
+                                  x{Number.isFinite(qty) ? qty : 0}
+                                </span>
+                              </div>
+                            </div>
                           </div>
                           <div className="text-[11px] font-bold text-gray-600">
-                            ${(Number(item.price) * item.quantity).toLocaleString()}
+                            ${Number(lineTotal || 0).toLocaleString()}
                           </div>
                         </div>
                       );

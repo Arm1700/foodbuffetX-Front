@@ -42,6 +42,31 @@ export async function verifyEmail(email, code, password) {
   }
 }
 
+// -------- PASSWORD RESET (REQUEST) --------
+export async function requestPasswordReset(email) {
+  try {
+    const res = await axiosInstance.post("password-reset/", { email });
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || err;
+  }
+}
+
+// -------- PASSWORD RESET (CONFIRM) --------
+export async function confirmPasswordReset(uid, token, new_password, new_password_confirm) {
+  try {
+    const res = await axiosInstance.post("password-reset/confirm/", {
+      uid,
+      token,
+      new_password,
+      new_password_confirm,
+    });
+    return res.data;
+  } catch (err) {
+    throw err.response?.data || err;
+  }
+}
+
 // -------- LOGOUT --------
 export async function logout(refresh) {
   try {
