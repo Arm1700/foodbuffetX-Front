@@ -9,7 +9,7 @@ import Menu from './widgets/pages/Menu/Menu';
 import Product from './widgets/pages/Product/Product';
 import Contact from './widgets/pages/Contact/Contact';
 import Footer from './widgets/footer/Footer';
-import Account from './entities/account/account';
+import Account from './entities/account/Account';
 
 
 function App() {
