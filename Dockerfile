@@ -1,12 +1,21 @@
-FROM node:22-alpine
+FROM node:22-alpine AS build
 
 WORKDIR /app
+
+ARG VITE_API_BASE=http://31.130.155.44
+ENV VITE_API_BASE=$VITE_API_BASE
 
 COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY . .
+RUN npm run build
 
-EXPOSE 5173
+FROM nginx:alpine
 
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
